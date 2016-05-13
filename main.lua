@@ -12,6 +12,8 @@ function love.load()
 end
 
 function love.mousepressed(x, y, button)
+  x = x - camera.x
+  y = y - camera.y
   Map.circle(x, y, 30)
   explosions.new(x, y, 0.3, 30, true)
 end

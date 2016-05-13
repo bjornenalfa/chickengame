@@ -5,4 +5,13 @@ function addImage(name)
   i[name] =  love.graphics.newImage("media/"..name..".png")
 end
 
+function getImage(name)
+  if i[name] then
+    return i[name]
+  else
+    addImage(name)
+    return i[name]
+  end
+end
+
 --addImage("debris")

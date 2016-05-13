@@ -4,6 +4,8 @@ c.__index = c
 
 c.list = {}
 
+c.maxHeightStep = 5
+
 function Character.new(x, y, r, owner, image)
   new = {x=x,
         y=y,
@@ -30,13 +32,30 @@ function Character:solid(side)
   end
 end
 
+function Character:move(dx)
+  x = self.x
+  y = self.y + self.r
+  local solid = Map.isSolid
+  if solid(x+dx, y-1) then
+    for dy = 2, c.maxHeightStep do
+      if not solid(x+dx,y-dy) then
+        self.x = x + dx
+        self.y = self.y - dy + 1
+        break
+      end
+    end
+  else
+    self.x = self.x + dx
+  end
+end
+
 function Character.update(dt)
   for i,char in pairs(c.list) do
     if love.keyboard.isDown("a") then
-      char.vx = char.vx - 100*dt
+      char:move(-1)
     end
     if love.keyboard.isDown("d") then
-      char.vx = char.vx + 100*dt
+      char:move(1)
     end
     if char:solid("under") then
       char.vy = 0
@@ -46,13 +65,7 @@ function Character.update(dt)
     if char:solid("above") then
       char.vy = 1
     end
-    if char:solid("left") then
-      char.vx = 0
-    end
-    if char:solid("right") then
-      char.vx = 0
-    end
-    char.x = char.x + char.vx * dt
+    --char.x = char.x + char.vx * dt
     char.y = char.y + char.vy * dt
   end
 end

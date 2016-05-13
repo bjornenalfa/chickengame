@@ -19,3 +19,5 @@ end
 for i = 1,6 do
   addImage("planetexplosion"..i)
 end
+
+addImage("hen")

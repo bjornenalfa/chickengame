@@ -6,7 +6,7 @@ require "Character"
 
 function love.load()
   Map.loadMap("map01")
-  Character.new(500,0, 10)
+  Character.new(500, 50, 10, "dev", image.hen)
 end
 
 function love.mousepressed(x, y, button)

@@ -10,6 +10,16 @@ function love.update(dt)
   time = time + dt
 end
 
+function love.mousepressed(x, y, button)
+  Map.circle(x, y, 30)
+end
+
+function love.keypressed(key)
+  if key == "escape" then
+    love.event.quit()
+  end
+end
+
 function love.draw()
   Map.draw()
   love.graphics.setColor(0,0,0)

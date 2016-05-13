@@ -5,6 +5,12 @@ m.currentImage = nil
 m.currentBackground = nil
 m.canvas = nil
 m.canvasData = nil
+m.width = 0
+m.height = 0
+
+local function updateData() -- this must be called after any modification to the map
+  m.canvasData = m.canvas:newImageData()
+end
 
 function Map.loadMap(name)
   m.currentImage = getImage(name)
@@ -14,11 +20,19 @@ function Map.loadMap(name)
     love.graphics.setColor(255,255,255)
     love.graphics.draw(m.currentImage)
   end)
-  m.updateData()
+  m.width = m.currentImage:getWidth()
+  m.height = m.currentImage:getHeight()
+  updateData()
 end
 
-function Map.updateData()
-  m.canvasData = m.canvas:newImageData()
+function Map.circle(x, y, r)
+  love.graphics.setCanvas(m.canvas)
+  love.graphics.setBlendMode("replace")
+  love.graphics.setColor(0,0,0,0)
+  love.graphics.circle("fill",x,y,r)
+  love.graphics.setBlendMode("alpha")
+  love.graphics.setCanvas()
+  updateData()
 end
 
 function Map.isSolid(x, y)

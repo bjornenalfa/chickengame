@@ -18,8 +18,6 @@ function projectile.new(image, mass, locationX, locationY, length, width, speed,
       m = mass,
       x = locationX,
       y = locationY,
-      ox = 0,
-      oy = 0, -- What are these?
       l = length,
       w = width,
       vx = speed * math.cos(angle),

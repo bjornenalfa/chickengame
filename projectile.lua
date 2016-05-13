@@ -3,36 +3,46 @@ local p = projectile
 
 p.projectiles = {}
 
-function projectile.new(image, mass, locationX, locationY, length, width, speed, angle, damage, owner)
+p.maxHeightAllowed = Map.height
+p.maxHeightAllowed = 2 * p.maxHeightAllowed
+p.minHeightAllowed = 0
+
+p.furthestLeftAllowed = -500
+p.furthestRightAllowed = (Map.width * 2) + 500
+
+p.maxDuration = -1
+
+function projectile.new(image, mass, locationX, locationY, length, width, speed, angle, damage, owner, duration)
   table.insert(p.projectiles, {
       img = image,
       m = mass,
       x = locationX,
       y = locationY,
       ox = 0,
-      oy = 0,
+      oy = 0, -- What are these?
       l = length,
       w = width,
       vx = speed * math.cos(angle),
       vy = speed * math.sin(angle),
       d = damage,
       duration = 0,
-      owner = owner
+      owner = owner,
+      maxDuration = duration
   })
-  sound.play(sound.missile_shoot)
 end
 
 function projectile.update(dt)
   collisions = {}
   projectileRemovals = {}
-  timeout = {}
+  expired = {}
   for projectileIndex, pr in pairs(p.projectiles) do
     pr.duration = pr.duration + dt
-    if pr.duration > 10 then
-      table.insert(timeout, projectileIndex)
+    if pr.maxDuration > 0 and pr.duration > pr.maxDuration then
+      table.insert(expired, projectileIndex)
+    elseif pr.x < pr.furthestLeftAllowed or pr.x > pr.furthestRightAllowed or pr.y < minHeightAllowed or pr.y > maxHeightAllowed then
+      table.insert(expired, projectileIndex)
     else
-      --pr.ox = pr.x
-      --pr.oy = pr.y
+      --[[ TODO: Collisions with entities and terrain.
       collided = false
       ax = 0
       ay = 0
@@ -79,6 +89,7 @@ function projectile.update(dt)
         end
       end
     end
+    ]]--
   end
   for i = #projectileRemovals, 1, -1 do
     explosions.new(p.projectiles[projectileRemovals[i]].x, p.projectiles[projectileRemovals[i]].y, 0.2, p.projectiles[projectileRemovals[i]].w, true)
@@ -88,9 +99,9 @@ function projectile.update(dt)
     explosions.new(p.projectiles[collisions[i]].x, p.projectiles[collisions[i]].y, 0.2, p.projectiles[collisions[i]].w, true)
     table.remove(p.projectiles, collisions[i])
   end
-  for i = #timeout, 1, -1 do
-    explosions.new(p.projectiles[timeout[i]].x, p.projectiles[timeout[i]].y, 0.2, p.projectiles[timeout[i]].w, true)
-    table.remove(p.projectiles, timeout[i])
+  for i = #expired, 1, -1 do
+    explosions.new(p.projectiles[expired[i]].x, p.projectiles[expired[i]].y, 0.2, p.projectiles[expired[i]].w, true)
+    table.remove(p.projectiles, expired[i])
   end
 end
 

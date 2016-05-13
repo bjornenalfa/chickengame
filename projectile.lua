@@ -53,54 +53,22 @@ function projectile.update(dt)
       -- Not too accurate, but it will do
       if Map.isSolid(pr.x, pr.y) then collided = true end
       
-      --[[ TODO: Collisions with entities and terrain.
-      collided = false
-      ax = 0
-      ay = 0
-      for _, pl in pairs(planet.planets) do
-        sqdis = (pl.x - pr.x)*(pl.x - pr.x) + (pl.y - pr.y)*(pl.y - pr.y)
-        angle = math.atan2(pl.y - pr.y, pl.x - pr.x)
-        g = (pl.m) / sqdis
-        ax = ax + math.cos(angle) * g
-        ay = ay + math.sin(angle) * g
-      end
-      pr.vx = pr.vx + ax * dt 
-      pr.vy = pr.vy + ay * dt
-      pr.x = pr.x + (pr.vx * dt)
-      pr.y = pr.y + (pr.vy * dt)
-      
-      for _, pl in pairs(planet.planets) do
-        if (pl.x - pr.x)*(pl.x - pr.x) + (pl.y - pr.y)*(pl.y - pr.y) < pl.r*pl.r then
-          if not pl.isSun then
-            pl.hp = pl.hp - pr.d
-            belongsToPlayer = false
-            for _, plr in pairs(player.players) do
-              if plr.planet == pl then
-                belongsToPlayer = true
-                break
-              end
-            end
-            if belongsToPlayer then
-              pr.owner.score = pr.owner.score + 100 * pr.duration
-            end
+      -- Next, if that didn't happen, character collisions
+      if not collided then
+        for _, char in pairs(Character.list) do
+          local sqDist = (char.x - pr.x)^2 + (char.y - pr.y)^2
+          if sqDist <= char.r then
+            collided = true
+            break
           end
-          table.insert(collisions, projectileIndex)
-          collided = true
-          break
         end
       end
       
-      for i, other in pairs(p.projectiles) do
-        if (pr.x - other.x) * (pr.x - other.x) + (pr.y - other.y) * (pr.y - other.y) < 10*10 and pr ~= other then
-          if not collided then
-            table.insert(projectileRemovals, projectileIndex)
-          end
-          --table.insert(collisions, i)
-          break
-        end
+      -- TOmaybeDO projectile-projectile collision
+      
+      if collided then
+        table.insert(collisions, projectileIndex)
       end
-    end
-    ]]--
   end
   for i = #projectileRemovals, 1, -1 do
     explosions.new(p.projectiles[projectileRemovals[i]].x, p.projectiles[projectileRemovals[i]].y, 0.2, p.projectiles[projectileRemovals[i]].w, true)

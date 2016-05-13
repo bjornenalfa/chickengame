@@ -40,6 +40,19 @@ function projectile.update(dt)
     elseif pr.x < pr.furthestLeftAllowed or pr.x > pr.furthestRightAllowed or pr.y < minHeightAllowed or pr.y > maxHeightAllowed then
       table.insert(expired, projectileIndex)
     else
+      -- First, update position
+      ax = 0 -- If we want projectiles that slow down, we can add that later.
+      ay = -10 -- Accelerate down at 10px/whateverTimeUnitWeUse by default. Probably not a reasonable number.
+      pr.vx = pr.vx + (dt * ax) -- Update velocities
+      pr.vy = pr.vy + (dt * ay) 
+      pr.x = pr.x + (pr.vx * dt) -- Update positions
+      pr.y = pr.y + (pr.vy * dt)
+      
+      -- Now, terrain collisions
+      collided = false
+      -- Not too accurate, but it will do
+      if Map.isSolid(pr.x, pr.y) then collided = true end
+      
       --[[ TODO: Collisions with entities and terrain.
       collided = false
       ax = 0
@@ -103,6 +116,7 @@ function projectile.update(dt)
   end
 end
 
+end
 function projectile.draw()
   for _, pr in pairs(p.projectiles) do
     love.graphics.setColor(pr.owner.color)

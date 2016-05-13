@@ -1,17 +1,17 @@
 require "image"
 require "map"
+require "sound"
+require "explosions"
+require "Character"
 
 function love.load()
   Map.loadMap("map01")
-end
-
-time = 0
-function love.update(dt)
-  time = time + dt
+  Character.new(500,0, 10)
 end
 
 function love.mousepressed(x, y, button)
   Map.circle(x, y, 30)
+  explosions.new(x, y, 0.3, 30, true)
 end
 
 function love.keypressed(key)
@@ -20,8 +20,19 @@ function love.keypressed(key)
   end
 end
 
+time = 0
+function love.update(dt)
+  time = time + dt
+  explosions.update(dt)
+  Character.update(dt)
+end
+
 function love.draw()
+  Map.drawBackground()
+  explosions.draw()
   Map.draw()
+  Character.draw()
+  
   love.graphics.setColor(0,0,0)
   if Map.isSolid(love.mouse.getPosition()) then
     love.graphics.print("solid",0,0)

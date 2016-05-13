@@ -36,13 +36,22 @@ function Map.circle(x, y, r)
 end
 
 function Map.isSolid(x, y)
-  r,g,b,a = m.canvasData:getPixel(x, y)
+  r,g,b,a = m.canvasData:getPixel(math.floor(x), math.floor(y))
   return a == 255
+end
+
+function Map.isEmpty(x, y)
+  r,g,b,a = m.canvasData:getPixel(math.floor(x), math.floor(y))
+  return a ~= 255
+end
+
+function Map.drawBackground()
+  love.graphics.setColor(255,255,255)
+  love.graphics.draw(m.currentBackground)
 end
 
 function Map.draw()
   love.graphics.setColor(255,255,255)
-  love.graphics.draw(m.currentBackground)
   love.graphics.draw(m.canvas)
 end
 

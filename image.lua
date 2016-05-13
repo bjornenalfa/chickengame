@@ -15,3 +15,7 @@ function getImage(name)
 end
 
 --addImage("debris")
+
+for i = 1,6 do
+  addImage("planetexplosion"..i)
+end

@@ -21,3 +21,4 @@ for i = 1,6 do
 end
 
 addImage("hen")
+addImage("zombie")

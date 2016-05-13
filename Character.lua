@@ -45,6 +45,13 @@ function Character:move(dx)
       end
     end
   else
+    for dy = 0, c.maxHeightStep do
+      if not solid(x+dx,y+dy) then
+        --self.x = x + dx
+        self.y = self.y - dy + 1
+        break
+      end
+    end
     self.x = self.x + dx
   end
 end
@@ -62,9 +69,9 @@ function Character.update(dt)
     else
       char.vy = char.vy + 200*dt
     end
-    if char:solid("above") then
-      char.vy = 1
-    end
+    --if char:solid("above") then
+    --  char.vy = 1
+    --end
     --char.x = char.x + char.vx * dt
     char.y = char.y + char.vy * dt
   end

@@ -1,3 +1,4 @@
+require "camera"
 require "image"
 require "map"
 require "sound"
@@ -6,6 +7,7 @@ require "Character"
 
 function love.load()
   Map.loadMap("map01")
+  Character.new(500, 50, 10, "dev", image.zombie)
   Character.new(500, 50, 10, "dev", image.hen)
 end
 
@@ -23,11 +25,13 @@ end
 time = 0
 function love.update(dt)
   time = time + dt
+  camera.update(dt)
   explosions.update(dt)
   Character.update(dt)
 end
 
 function love.draw()
+  camera.draw()
   Map.drawBackground()
   explosions.draw()
   Map.draw()

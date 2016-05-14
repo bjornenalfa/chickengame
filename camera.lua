@@ -12,7 +12,7 @@ camera.CAMERA_MOVE_DOWN = "down"
 camera.CAMERA_MOVE_UP = "up"
 camera.CAMERA_MOVE_LEFT = "left"
 camera.CAMERA_MOVE_RIGHT = "right"
-camera.CAMERA_RESET = "space"
+camera.CAMERA_RESET = "h"
 
 i.activeEntity = nil
 i.currentlyFollowing = false
@@ -61,32 +61,20 @@ function camera.update(dt)
     i.currentlyFollowing = false
     i.posY = i.posY - (i.cameraSpeed * dt)
     print("Down")
-    if i.posY > Map.height then
-      i.posY = Map.height
-    end
+    
   elseif love.keyboard.isDown(camera.CAMERA_MOVE_UP) then
     i.currentlyFollowing = false
     i.posY = i.posY + (i.cameraSpeed * dt)
     print("Up")
-    if i.posY < 0 then
-      i.posY = 0
-    end
   elseif love.keyboard.isDown(camera.CAMERA_MOVE_LEFT) then
     i.currentlyFollowing = false
     i.posX = i.posX + (i.cameraSpeed * dt)
     print("Left")
-    if i.posX < cw - Map.width then
-      print("Too far left (was "..i.posX..")")
-      i.posX = cw - Map.width
-    end
+  
   elseif love.keyboard.isDown(camera.CAMERA_MOVE_RIGHT) then
     i.currentlyFollowing = false
     i.posX = i.posX - (i.cameraSpeed * dt)
     print("Right")
-    if i.posX > 0 then
-      i.posX = 0
-      print("Too far right")
-    end
   else -- No manual camera movement
     if i.activeEntity and i.activeEntity.x and i.activeEntity.y and i.currentlyFollowing then
       -- We have a valid entity which we are tracking.
@@ -97,6 +85,18 @@ function camera.update(dt)
       print("Not tracking")
     end
   end
+  
+  if i.posY > Map.height then
+    i.posY = Map.height
+  elseif i.posY < 0 then
+    i.posY = 0
+  end
+  if i.posX < cw - Map.width then
+    i.posX = cw - Map.width
+  elseif i.posX > 0 then
+    i.posX = 0
+  end
+
 end
 
 function camera.trackEntity(target)

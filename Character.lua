@@ -16,7 +16,7 @@ function Character.new(x, y, r, owner, image, leg)
         owner=owner,
         image=image,
         leg = leg,
-        hp=100,
+        hp=1000,
         maxhp=100,
         lastTurn = 0,
         dead = false,

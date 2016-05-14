@@ -124,6 +124,12 @@ end
 function turn.update(dt)
   if t.ending then
     static = true
+    for i,char in pairs(Object.list) do
+      if math.abs(char.vx) > 1 or math.abs(char.vy) > 1 then
+        static = false
+        camera.trackEntity(char)
+      end
+    end
     for i,char in pairs(Character.list) do
       if math.abs(char.vx) > 1 or math.abs(char.vy) > 1 then
         static = false

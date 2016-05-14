@@ -53,6 +53,16 @@ function turn.update(dt)
   if t.turnTimer <= 0 then
     t.endTurn()
   end
+  
+  if love.keyboard.isDown("a") then
+    t.currentCharacter:move(-1)
+  end
+  if love.keyboard.isDown("d") then
+    t.currentCharacter:move(1)
+  end
+  if love.keyboard.isDown("w") then
+    t.currentCharacter:jump()
+  end
 end
 
 function turn.draw()

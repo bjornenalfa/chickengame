@@ -20,7 +20,9 @@ function Character.new(x, y, r, owner, image, leg)
         maxhp=100,
         lastTurn = 0,
         dead = false,
-        direction = "right"
+        direction = "right",
+        moved = false,
+        animationTime = 0
   }
   setmetatable(new, Character)
   table.insert(c.list, new)
@@ -40,6 +42,7 @@ function Character:solid(side)
 end
 
 function Character:move(dx)
+  char.moved = true
   if dx < 0 then
     self.direction = "left"
   else
@@ -138,6 +141,10 @@ end
 function Character.update(dt)
   dead = {}
   for i,char in pairs(c.list) do
+    if char.moved then
+      char.animationTime = char.animationTime + dt
+      char.moved = false
+    end
     if char.vy < 0 and char:solid("above") then
       char.vy = 1
       while char:solid("above") do
@@ -187,13 +194,13 @@ function Character.draw()
   for i,char in pairs(c.list) do
     love.graphics.setColor(255,255,255)
     if char.direction == "right" then
-      love.graphics.draw(char.leg, char.x, char.y, ((math.abs(((time)*400)%200-100))-50)/100, 1, 1, char.leg:getWidth()/2, char.leg:getHeight()/2 - 15)
+      love.graphics.draw(char.leg, char.x, char.y, ((math.abs(((char.animationTime)*400)%200-100))-50)/100, 1, 1, char.leg:getWidth()/2, char.leg:getHeight()/2 - 15)
       love.graphics.draw(char.image, char.x, char.y, 0, 1, 1, char.image:getWidth()/2, char.image:getHeight()/2)
-      love.graphics.draw(char.leg, char.x, char.y, ((math.abs(((time)*400+100)%200-100))-50)/100, 1, 1, char.leg:getWidth()/2, char.leg:getHeight()/2 - 15)
+      love.graphics.draw(char.leg, char.x, char.y, ((math.abs(((char.animationTime)*400+100)%200-100))-50)/100, 1, 1, char.leg:getWidth()/2, char.leg:getHeight()/2 - 15)
     else
-      love.graphics.draw(char.leg, char.x, char.y, ((math.abs(((-time)*400)%200-100))-50)/100, -1, 1, char.leg:getWidth()/2, char.leg:getHeight()/2 - 15)
+      love.graphics.draw(char.leg, char.x, char.y, ((math.abs(((-char.animationTime)*400)%200-100))-50)/100, -1, 1, char.leg:getWidth()/2, char.leg:getHeight()/2 - 15)
       love.graphics.draw(char.image, char.x, char.y, 0, -1, 1, char.image:getWidth()/2, char.image:getHeight()/2)
-      love.graphics.draw(char.leg, char.x, char.y, ((math.abs(((-time)*400+100)%200-100))-50)/100, -1, 1, char.leg:getWidth()/2, char.leg:getHeight()/2 - 15)
+      love.graphics.draw(char.leg, char.x, char.y, ((math.abs(((-char.animationTime)*400+100)%200-100))-50)/100, -1, 1, char.leg:getWidth()/2, char.leg:getHeight()/2 - 15)
     end
     love.graphics.setColor(255,0,0,100)
     love.graphics.circle("fill",char.x, char.y, char.r)

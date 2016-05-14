@@ -20,7 +20,8 @@ function turn.endTurn()
   turn.nextTurn()
 end
 
-function turn.nextTurn()
+function turn.nextTurn(depth)
+  if depth == nil then depth = 0 end
   t.turnNumber = t.turnNumber + 1
   t.currentPlayerIndex = (t.currentPlayerIndex % #t.playerOrder) + 1
   t.currentPlayer = t.playerOrder[t.currentPlayerIndex]
@@ -35,8 +36,12 @@ function turn.nextTurn()
     end
   end
   if oldest == nil then
+    if depth > #t.playerOrder then
+      print("oh it is game over")
+      return
+    end
     print("next player has no characters left?")
-    return turn.nextTurn()
+    return turn.nextTurn(depth+1)
   end
   oldest.lastTurn = t.turnNumber
   t.currentCharacter = oldest

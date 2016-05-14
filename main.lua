@@ -23,10 +23,64 @@ main = {}
 function love.load()
   math.randomseed(os.time())
   camera.listen(main)
-  Map.loadMap("map03")
-  Character.new(600, 50, 20, player1, image.hen, image.hen_leg)
-  Character.new(500, 50, 25, player2, image.zombie, image.zombie_leg)
-  Character.new(400, 50, 25, player2, image.zombie2, image.zombie_leg)
+  Map.loadMap("map04")
+  --Character.new(600, 50, 20, player1, image.hen, image.hen_leg)
+  --Character.new(500, 50, 25, player2, image.zombie, image.zombie_leg)
+  --Character.new(400, 50, 25, player2, image.zombie2, image.zombie_leg)
+  for i = 1, 5 do
+    x = 0
+    y = 0
+    for j = 1, 200 do
+      x = math.random(0, Map.width)
+      y = math.random(0, Map.height)
+      if Map.isSolid(x,y) then
+        break
+      end
+    end
+    while y > 0 and Map.isSolid(x,y) do
+      y = y - 1
+    end
+    Character.new(x, y-25, 20, player1, image.hen, image.hen_leg)
+  end
+  for i = 1, 5 do
+    x = 0
+    y = 0
+    for j = 1, 200 do
+      x = math.random(0, Map.width)
+      y = math.random(0, Map.height)
+      if Map.isSolid(x,y) then
+        break
+      end
+    end
+    while y > 0 and Map.isSolid(x,y) do
+      y = y - 1
+    end
+    Character.new(x, y-30, 25, player2, image.zombie, image.zombie_leg)
+  end
+  for i = 1, 10 do
+    x = 0
+    y = 0
+    for j = 1, 200 do
+      x = math.random(0, Map.width)
+      y = math.random(0, Map.height)
+      if Map.isSolid(x,y) then
+        break
+      end
+    end
+    while y > 0 and Map.isSolid(x,y) do
+      y = y - 1
+    end
+    place = true
+    for i,char in pairs(Character.list) do
+      if (char.x-x)*(char.x-x) + (char.y-y)*(char.y-y) <= 65*65 then
+        place = false
+        break
+      end
+    end
+    if place then
+      Mine.new(x,y)
+    end
+  end
   turn.nextTurn()
   sound.play("theme")
 end

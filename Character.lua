@@ -122,8 +122,9 @@ end
 function Character:die()
   if self == turn.currentCharacter then
       turn.endTurn()
-    end
-  Game.explode(self.x, self.y, 20, 200, 30)
+  end
+  Object.new(self.x+math.random(-2,2), self.y-math.random(1,3), 15, image.grave01, "death")
+  Game.explode(self.x, self.y, 40, 200, 30)
 end
 
 function Character.explosion(x, y, r, power, damage)

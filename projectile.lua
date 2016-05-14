@@ -10,7 +10,7 @@ p.furthestRightAllowed = (Map.width * 2) + 500
 
 p.maxDuration = -1
 
-function projectile.new(image, locationX, locationY, length, width, speed, angle, damage, owner, duration)
+function projectile.new(image, locationX, locationY, length, width, speed, angle, damage, owner, power, radius)
   new = {
       img = image,
       x = locationX,
@@ -22,7 +22,8 @@ function projectile.new(image, locationX, locationY, length, width, speed, angle
       d = damage,
       duration = 0,
       owner = owner,
-      maxDuration = duration,
+      power = power,
+      radius = radius,
       remove = false
   }
   table.insert(p.projectiles, new)
@@ -33,9 +34,7 @@ function projectile.update(dt)
   removeList = {}
   for projectileIndex, pr in pairs(p.projectiles) do
     pr.duration = pr.duration + dt
-    if pr.maxDuration > 0 and pr.duration > pr.maxDuration then
-      pr.remove = true
-    elseif pr.x < -500 or pr.x > (Map.width * 2) + 500 or pr.y < -1000 or pr.y > Map.height*2 then
+    if pr.x < -500 or pr.x > (Map.width * 2) + 500 or pr.y < -1000 or pr.y > Map.height*2 then
       pr.remove = true
     else
       -- First, update position
@@ -73,7 +72,7 @@ function projectile.update(dt)
   end
   for i = #removeList, 1, -1 do
     pr = p.projectiles[removeList[i]]
-    Game.explode(pr.x, pr.y, pr.w, 100, pr.d)
+    Game.explode(pr.x, pr.y, pr.radius, pr.power, pr.d)
     if not turn.playerinput then
       turn.endTurn()
     end

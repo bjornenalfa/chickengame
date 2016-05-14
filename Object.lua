@@ -6,15 +6,15 @@ o.list = {}
 
 o.maxHeightStep = 5
 
-function Object.new(x, y, r, owner, image)
+function Object.new(x, y, r, image, owner)
   new = {x=x,
         y=y,
         r=r,
         dx=0,
         vx=0,
         vy=0,
-        owner=owner,
         image=image,
+        owner=owner,
         dead = false,
   }
   setmetatable(new, Object)
@@ -75,9 +75,14 @@ function Object.explosion(x, y, r, power)
   end
 end
 
-function Object.update(dt)
+function Object:update(dt)
+  
+end
+
+function Object.updateAll(dt)
   dead = {}
   for i,obj in pairs(o.list) do
+    obj:update(dt)
     if obj.vy < 0 and obj:solid("above") then
       obj.vy = 1
       while obj:solid("above") do
@@ -86,9 +91,6 @@ function Object.update(dt)
       obj.y = obj.y - 1
     end
     if obj:solid("under") then
-      if obj.vy > 400 then
-        obj:damage((obj.vy-400)*0.5)
-      end
       if obj.vy > 0 then
         while obj:solid("under") do
           obj.y = obj.y - 1
@@ -122,16 +124,16 @@ function Object.update(dt)
   end
 end
 
-function Object.draw()
+function Object:draw()
+  love.graphics.setColor(255,255,255)
+  love.graphics.draw(self.image, self.x, self.y, 0, 1, 1, self.image:getWidth()/2, self.image:getHeight()/2)
+  love.graphics.setColor(255,0,0,100)
+  --love.graphics.circle("fill",self.x, self.y, self.r)
+end
+
+function Object.drawAll()
   love.graphics.setColor(255,255,255)
   for i,obj in pairs(o.list) do
-    love.graphics.setColor(255,255,255)
-    if obj.direction == "right" then
-      love.graphics.draw(obj.image, obj.x, obj.y, 0, 1, 1, obj.image:getWidth()/2, obj.image:getHeight()/2)
-    else
-      love.graphics.draw(obj.image, obj.x, obj.y, 0, -1, 1, obj.image:getWidth()/2, obj.image:getHeight()/2)
-    end
-    love.graphics.setColor(255,0,0,100)
-    --love.graphics.circle("fill",obj.x, obj.y, obj.r)
+    obj:draw()
   end
 end

@@ -46,8 +46,9 @@ function turn.nextTurn()
   end
   if oldest == nil then
     if #Character.list == 0 then
-      print("oh it is game over")
-      return Game.endGame()
+      print("oh it is game over, well not anymore!")
+      Character.new(600, 50, 20, player1, image.hen, image.hen_leg)
+      --return Game.endGame()
     end
     print("next player has no characters left?")
     return turn.nextTurn()
@@ -65,32 +66,10 @@ end
 
 function turn.fire()
   --image, locationX, locationY, length, width, speed, angle, damage, owner, duration
-  pr = projectile.new(image.bazooka_missile, char.x + math.cos(t.aimAngle)*25, char.y + math.sin(t.aimAngle)*25, 10, 30, t.aimPower, t.aimAngle, 50, t.currentPlayer, 30)
+  pr = projectile.new(image.bazooka_missile, char.x + math.cos(t.aimAngle)*25, char.y + math.sin(t.aimAngle)*25, 10, 30, t.aimPower, t.aimAngle, 50, t.currentPlayer, 200, 50)
   t.playerinput = false
   t.aiming = false
   camera.trackEntity(pr)
-end
-
-
-
-function turn.gamepadpressed(joystick, button)
-  --[[if not t.ending then
-    if t.currentCharacter then
-      if button == "x" then
-        if t.aiming then
-          t.fire()
-        else
-          t.aiming = true
-        end
-      elseif button == "a" then
-        t.currentCharacter:jump()
-      elseif button == "b" then
-        if t.aiming then
-          t.aiming = false
-        end
-      end
-    end
-  end]]--
 end
 
 function turn.gamepadaxis(joystick, axis)
@@ -167,6 +146,9 @@ function turn.handleInput(dt)
     if hasInput(CHARACTER_JUMP) then
       t.currentCharacter:jump()
     end
+    if hasInput(ACTION_PLACE_MINE) then
+      Mine.new(t.currentCharacter.x, t.currentCharacter.y)
+    end
   end
   
   if t.aimToggleCoolDownRemaining <= 0 then
@@ -195,6 +177,12 @@ end
 function turn.update(dt)
   if t.ending then
     static = true
+    for i,char in pairs(Object.list) do
+      if math.abs(char.vx) > 1 or math.abs(char.vy) > 1 then
+        static = false
+        camera.trackEntity(char)
+      end
+    end
     for i,char in pairs(Character.list) do
       if math.abs(char.vx) > 1 or math.abs(char.vy) > 1 then
         static = false

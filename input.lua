@@ -14,3 +14,4 @@ CHARACTER_AIM_RIGHT = {keyboard={"d"}, gamepad={}}
 CHARACTER_AIM_STRENGTH_UP = {keyboard={"w"}, gamepad={}}
 CHARACTER_AIM_STRENGTH_DOWN = {keyboard={"s"}, gamepad={}}
 END_TURN = {keyboard={"k"}, gamepad={"y"}}
+ACTION_PLACE_MINE = {keyboard={"m"}, gamepad={}}

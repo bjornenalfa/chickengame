@@ -11,8 +11,14 @@ m.canvasData = nil
 m.width = 0
 m.height = 0
 
+local counter = 0
 local function updateData() -- this must be called after any modification to the map
+  counter = counter + 1
   m.canvasData = m.canvas:newImageData()
+  if counter > 20 then
+    collectgarbage()
+    counter = 0
+  end
 end
 
 function Map.loadMap(name)

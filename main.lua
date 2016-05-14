@@ -12,6 +12,7 @@ require "Game"
 require "projectile"
 require "ui"
 require "Object"
+require "Mine"
 
 player1 = Player.new("chicken",1)
 player2 = Player.new("zombie",2)
@@ -26,6 +27,7 @@ function love.load()
   Character.new(500, 50, 25, player2, image.zombie, image.zombie_leg)
   Character.new(400, 50, 25, player2, image.zombie2, image.zombie_leg)
   turn.nextTurn()
+  sound.play("theme")
 end
 
 function main.onClick(x, y, button)
@@ -53,7 +55,7 @@ function love.update(dt)
   projectile.update(dt)
   explosions.update(dt)
   Character.update(dt)
-  Object.update(dt)
+  Object.updateAll(dt)
   floattext.update(dt)
   turn.update(dt)
 end
@@ -64,7 +66,7 @@ function love.draw()
   explosions.drawShake()
   Map.draw()
   Character.draw()
-  Object.draw()
+  Object.drawAll()
   projectile.draw()
   turn.draw()
   floattext.draw()

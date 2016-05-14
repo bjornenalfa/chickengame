@@ -70,7 +70,7 @@ function camera.update(dt)
       -- We have a valid entity which we are tracking.
       -- TODO: Track it.
       i.posX = -(i.activeEntity.x + (cw - Map.width)/2)
-      i.posY = ((ch - Map.height)/2  - i.activeEntity.y)
+      i.posY = -(i.activeEntity.y + (ch - Map.height)/2)
     end
   end
   

@@ -47,6 +47,7 @@ function turn.nextTurn()
   end
   oldest.lastTurn = t.turnNumber
   t.currentCharacter = oldest
+  camera.followEntity(t.currentCharacter)
   t.timerActive = true
   t.turnTimer = t.turnTime
   t.aiming = false

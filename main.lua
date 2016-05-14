@@ -14,14 +14,17 @@ player1 = Player.new("chicken")
 player2 = Player.new("zombie")
 turn.setPlayerOrder(player1, player2)
 
+main = {}
+
 function love.load()
+  camera.listen(main)
   Map.loadMap("map02")
   Character.new(600, 50, 20, player1, image.hen, image.hen_leg)
   Character.new(500, 50, 20, player2, image.zombie, image.zombie_leg)
   turn.nextTurn()
 end
 
-function love.mousepressed(x, y, button)
+function main.onClick(x, y, button)
   Game.explode(x, y, 30, 300, 50)
 end
 

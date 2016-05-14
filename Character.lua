@@ -165,7 +165,7 @@ function Character.update(dt)
       end
       char.vx = char.vx * 0.95
     else
-      char.vy = char.vy + 300*dt
+      char.vy = char.vy + Game.gravity*dt
       char.vx = char.vx * 0.99
     end
     char.dx = char.dx + char.vx * dt

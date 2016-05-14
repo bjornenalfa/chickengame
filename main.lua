@@ -21,7 +21,8 @@ function love.load()
   camera.listen(main)
   Map.loadMap("map02")
   Character.new(600, 50, 20, player1, image.hen, image.hen_leg)
-  Character.new(500, 50, 20, player2, image.zombie, image.zombie_leg)
+  Character.new(500, 50, 25, player2, image.zombie, image.zombie_leg)
+  Character.new(400, 50, 25, player2, image.zombie2, image.zombie_leg)
   turn.nextTurn()
 end
 
@@ -32,6 +33,9 @@ end
 function love.keypressed(key)
   if key == "escape" then
     love.event.quit()
+  end
+  if key == "k" then
+    turn.endTurn()
   end
   turn.keypressed(key)
 end

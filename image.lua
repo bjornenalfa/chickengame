@@ -23,5 +23,6 @@ end
 addImage("hen")
 addImage("hen_leg")
 addImage("zombie")
+addImage("zombie2")
 addImage("zombie_leg")
 addImage("bazooka_missile")

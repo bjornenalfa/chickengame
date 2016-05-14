@@ -16,7 +16,7 @@ function Character.new(x, y, r, owner, image, leg)
         owner=owner,
         image=image,
         leg = leg,
-        hp=1000,
+        hp=100,
         maxhp=100,
         lastTurn = 0,
         dead = false,
@@ -203,7 +203,7 @@ function Character.draw()
       love.graphics.draw(char.leg, char.x, char.y, ((math.abs(((-char.animationTime)*400+100)%200-100))-50)/100, -1, 1, char.leg:getWidth()/2, char.leg:getHeight()/2 - 15)
     end
     love.graphics.setColor(255,0,0,100)
-    love.graphics.circle("fill",char.x, char.y, char.r)
+    --love.graphics.circle("fill",char.x, char.y, char.r)
     
     love.graphics.rectangle("fill",char.x-20,char.y-40,40,10)
     love.graphics.rectangle("fill",char.x-20,char.y-40,40*(char.hp/char.maxhp),10)

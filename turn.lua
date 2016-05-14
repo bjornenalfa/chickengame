@@ -62,7 +62,8 @@ function turn.keypressed(key)
       t.aiming = false
     end
   elseif key == "f" then
-    projectile.new(image.bazooka_missile, char.x + math.cos(t.aimAngle)*20, char.y + math.sin(t.aimAngle)*20, 10, 30, 400, t.aimAngle, 10, t.currentPlayer, 30)
+    --image, locationX, locationY, length, width, speed, angle, damage, owner, duration
+    projectile.new(image.bazooka_missile, char.x + math.cos(t.aimAngle)*20, char.y + math.sin(t.aimAngle)*20, 10, 30, 400, t.aimAngle, 50, t.currentPlayer, 30)
   end
 end
 

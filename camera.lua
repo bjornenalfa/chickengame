@@ -37,6 +37,7 @@ function camera.listen(l)
   end
 end
 
+-- Returns whether the keyboard or at least one gamepad has one of the specified inputs.
 function hasInput(inputs, gamepads)
   gamepads = gamepads or {}
   inputs = inputs or {}
@@ -67,37 +68,37 @@ function camera.update(dt)
     i.currentlyFollowing = true
     if i.activeEntity and i.activeEntity.x and i.activeEntity.y then
       -- Valid entity to follow. Set camera position based on that.
-      -- TODO - make it work.
-      i.posX = -(i.activeEntity.x + (cw - Map.width)/2)
-      i.posY = ((ch - Map.height)/2  - i.activeEntity.y)
+      -- 
+      i.posX = (i.activeEntity.x - (cw/2 + i.activeEntity.r))
+      i.posY = (i.activeEntity.y - (ch/2 + i.activeEntity.r))
     end
   elseif hasInput(camera.CAMERA_MOVE_DOWN, joysticks) then
     i.currentlyFollowing = false
-    i.posY = i.posY - (i.cameraSpeed * dt)
+    i.posY = i.posY + (i.cameraSpeed * dt)
   elseif hasInput(camera.CAMERA_MOVE_UP, joysticks) then
     i.currentlyFollowing = false
-    i.posY = i.posY + (i.cameraSpeed * dt)
+    i.posY = i.posY - (i.cameraSpeed * dt)
   elseif hasInput(camera.CAMERA_MOVE_LEFT, joysticks) then
     i.currentlyFollowing = false
-    i.posX = i.posX + (i.cameraSpeed * dt)
+    i.posX = i.posX - (i.cameraSpeed * dt)
   elseif hasInput(camera.CAMERA_MOVE_RIGHT, joysticks) then
     i.currentlyFollowing = false
-    i.posX = i.posX - (i.cameraSpeed * dt)
+    i.posX = i.posX + (i.cameraSpeed * dt)
   else -- No manual camera movement
     if i.activeEntity and i.activeEntity.x and i.activeEntity.y and i.currentlyFollowing then
       -- We have a valid entity which we are tracking.
-      -- TODO: Track it.
-      i.posX = -(i.activeEntity.x + (cw - Map.width)/2)
-      i.posY = -(i.activeEntity.y + (ch - Map.height)/2)
+      -- Breaks on large maps such as 03.
+      i.posX = (i.activeEntity.x - (cw/2 + i.activeEntity.r))
+      i.posY = (i.activeEntity.y - (ch/2 + i.activeEntity.r))
     end
   end
   
   -- Boundary checking - the camera should show nothing outside the map.
-  -- TODO: Make it actually work when moving camera down or right.
-  local minY = ch - Map.height
-  local maxY = 0
-  local minX = cw - Map.width
-  local maxX = 0
+  -- TODO: Appears to break
+  local minY = 0
+  local maxY = Map.height - ch
+  local minX = 0
+  local maxX = Map.width - cw
   
   if i.posY < minY then
     i.posY = minY
@@ -124,8 +125,6 @@ end
 function camera.draw()
   local xCenter = i.posX * i.scale 
   local yCenter = i.posY * i.scale 
-  love.graphics.translate(xCenter, yCenter)
+  love.graphics.translate(-xCenter, -yCenter)
   love.graphics.scale(i.scale)
-  
-  
 end

@@ -64,7 +64,7 @@ end
 
 function turn.fire()
   --image, locationX, locationY, length, width, speed, angle, damage, owner, duration
-  pr = projectile.new(image.bazooka_missile, char.x + math.cos(t.aimAngle)*20, char.y + math.sin(t.aimAngle)*20, 10, 30, t.aimPower, t.aimAngle, 50, t.currentPlayer, 30)
+  pr = projectile.new(image.bazooka_missile, char.x + math.cos(t.aimAngle)*25, char.y + math.sin(t.aimAngle)*25, 10, 30, t.aimPower, t.aimAngle, 50, t.currentPlayer, 30)
   t.playerinput = false
   t.aiming = false
   camera.trackEntity(pr)
@@ -151,15 +151,19 @@ function turn.update(dt)
       if love.joystick.getJoystickCount() > 0 then
         joystick = love.joystick.getJoysticks()[1]
         y2 = joystick:getGamepadAxis("triggerright") - joystick:getGamepadAxis("triggerleft")
-        if math.abs(y2) > 0.2 then
-          t.aimPower = math.min(math.max(100, t.aimPower + y2*100*dt), 800)
-        end
+        t.aimPower = math.min(math.max(100, t.aimPower + y2*400*dt), 800)
       end
       if love.keyboard.isDown("a") then
         t.aimAngle = t.aimAngle - 2*dt
       end
       if love.keyboard.isDown("d") then
         t.aimAngle = t.aimAngle + 2*dt
+      end
+      if love.keyboard.isDown("w") then
+         t.aimPower = math.min(math.max(100, t.aimPower + 400*dt), 800)
+      end
+      if love.keyboard.isDown("s") then
+         t.aimPower = math.min(math.max(100, t.aimPower - 400*dt), 800)
       end
     else
       if love.joystick.getJoystickCount() > 0 then
@@ -190,8 +194,10 @@ function turn.draw()
     if t.aiming then
       love.graphics.setColor(0,255,0)
       love.graphics.line(char.x + math.cos(t.aimAngle)*20, char.y + math.sin(t.aimAngle)*20, char.x + math.cos(t.aimAngle)*60, char.y + math.sin(t.aimAngle)*60)
-      pangle = 0.3
-      love.graphics.polygon("fill", char.x + math.cos(t.aimAngle-pangle)*20, char.y + math.sin(t.aimAngle-pangle)*20, char.x + math.cos(t.aimAngle-pangle)*(30+10*(t.aimPower/100)), char.y + math.sin(t.aimAngle-pangle)*(30+10*(t.aimPower/100)), char.x + math.cos(t.aimAngle+pangle)*(30+10*(t.aimPower/100)), char.y + math.sin(t.aimAngle+pangle)*(30+10*(t.aimPower/100)), char.x + math.cos(t.aimAngle+pangle)*20, char.y + math.sin(t.aimAngle+pangle)*20)
+      
+      pangle = 0.15
+      love.graphics.setColor(HSV((800-t.aimPower)/8,255,255))
+      love.graphics.polygon("fill", char.x + math.cos(t.aimAngle-pangle)*20, char.y + math.sin(t.aimAngle-pangle)*20, char.x + math.cos(t.aimAngle-pangle)*(30+5*(t.aimPower/100)), char.y + math.sin(t.aimAngle-pangle)*(30+5*(t.aimPower/100)), char.x + math.cos(t.aimAngle+pangle)*(30+5*(t.aimPower/100)), char.y + math.sin(t.aimAngle+pangle)*(30+5*(t.aimPower/100)), char.x + math.cos(t.aimAngle+pangle)*20, char.y + math.sin(t.aimAngle+pangle)*20)
     end
   end
 end

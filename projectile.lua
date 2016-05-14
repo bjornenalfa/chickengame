@@ -35,7 +35,7 @@ function projectile.update(dt)
     pr.duration = pr.duration + dt
     if pr.maxDuration > 0 and pr.duration > pr.maxDuration then
       pr.remove = true
-    elseif pr.x < -500 or pr.x > (Map.width * 2) + 500 or pr.y < -400 or pr.y > Map.height*2 then
+    elseif pr.x < -500 or pr.x > (Map.width * 2) + 500 or pr.y < -1000 or pr.y > Map.height*2 then
       pr.remove = true
     else
       -- First, update position

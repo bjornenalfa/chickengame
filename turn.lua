@@ -45,8 +45,9 @@ function turn.nextTurn()
   end
   if oldest == nil then
     if #Character.list == 0 then
-      print("oh it is game over")
-      return Game.endGame()
+      print("oh it is game over, well not anymore!")
+      Character.new(600, 50, 20, player1, image.hen, image.hen_leg)
+      --return Game.endGame()
     end
     print("next player has no characters left?")
     return turn.nextTurn()
@@ -81,8 +82,6 @@ function turn.gamepadpressed(joystick, button)
         else
           t.aiming = true
         end
-      elseif button == "x" then
-        t.aiming = false
       elseif button == "a" then
         t.currentCharacter:jump()
       elseif button == "b" then

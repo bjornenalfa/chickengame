@@ -6,10 +6,11 @@ function Game.explode(x, y, r, power, damage)
   Map.circle(x, y, r)
   explosions.new(x, y, 0.3, r, true)
   Character.explosion(x, y, r, power, damage)
+  Object.explosion(x, y, r, power)
 end
 
 function Game.endGame()
-  return "game over" + 1
+  return error("Game over!")
 end
 
 function HSV(h, s, v)

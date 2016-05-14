@@ -85,6 +85,7 @@ function turn.update(dt)
     end
   end
   
+  if t.ending then return end
   if t.currentCharacter then
     if t.aiming then
       if love.keyboard.isDown("a") then

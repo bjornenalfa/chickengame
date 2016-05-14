@@ -15,7 +15,6 @@ player2 = Player.new("zombie")
 turn.setPlayerOrder(player1, player2)
 
 main = {}
-assert(main ~= nil)
 
 function love.load()
   camera.listen(main)

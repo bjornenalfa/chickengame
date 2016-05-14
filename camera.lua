@@ -14,7 +14,10 @@ camera.CAMERA_MOVE_LEFT = "left"
 camera.CAMERA_MOVE_RIGHT = "right"
 camera.CAMERA_RESET = "space"
 
-i.cameraSpeed = 200
+i.activeEntity = nil
+i.currentlyFollowing = false
+
+i.cameraSpeed = 2000
 
 i.mouseListeners = {}
 
@@ -45,36 +48,56 @@ function camera.update(dt)
   local ch,cw = Map.canvas:getDimensions()
   
   if love.keyboard.isDown(camera.CAMERA_RESET) then
-    -- TODO: Reset camera position.
-  end
-  if love.keyboard.isDown(camera.CAMERA_MOVE_DOWN) then
-    i.posY = i.posY - i.cameraSpeed
+    i.currentlyFollowing = true
+    if i.activeEntity and i.activeEntity.x and i.activeEntity.y then
+      -- Valid entity to follow. Set camera position based on that.
+      -- TODO - take scale into account.
+      i.posX = i.activeEntity.x
+      i.posY = i.activeEntity.y
+    else
+      print("Nothing to follow")
+    end
+  elseif love.keyboard.isDown(camera.CAMERA_MOVE_DOWN) then
+    i.currentlyFollowing = false
+    i.posY = i.posY - (i.cameraSpeed * dt)
     print("Down")
     if i.posY > Map.height then
       i.posY = Map.height
     end
   elseif love.keyboard.isDown(camera.CAMERA_MOVE_UP) then
-    i.posY = i.posY + i.cameraSpeed
+    i.currentlyFollowing = false
+    i.posY = i.posY + (i.cameraSpeed * dt)
     print("Up")
     if i.posY < 0 then
       i.posY = 0
     end
-  end
-  if love.keyboard.isDown(camera.CAMERA_MOVE_LEFT) then
-    i.posX = i.posX + i.cameraSpeed
+  elseif love.keyboard.isDown(camera.CAMERA_MOVE_LEFT) then
+    i.currentlyFollowing = false
+    i.posX = i.posX + (i.cameraSpeed * dt)
     print("Left")
     if i.posX < cw - Map.width then
       print("Too far left (was "..i.posX..")")
       i.posX = cw - Map.width
     end
   elseif love.keyboard.isDown(camera.CAMERA_MOVE_RIGHT) then
-    i.posX = i.posX - i.cameraSpeed
+    i.currentlyFollowing = false
+    i.posX = i.posX - (i.cameraSpeed * dt)
     print("Right")
     if i.posX > 0 then
       i.posX = 0
       print("Too far right")
     end
+  else -- No manual camera movement
+    if i.activeEntity and activeEntity.x and activeEntity.y and i.currentlyFollowing then
+      -- We have a valid entity which we are tracking.
+      -- TODO: Track it.
+    end
   end
+end
+
+function camera.trackEntity(target)
+  i.activeEntity = target
+  t.currentlyFollowing = true
 end
 
 function camera.draw()

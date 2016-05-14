@@ -11,6 +11,7 @@ function Character.new(x, y, r, owner, image, leg)
         y=y,
         r=r,
         dx=0,
+        mx=0,
         vx=0,
         vy=0,
         owner=owner,
@@ -172,6 +173,10 @@ function Character.update(dt)
     while math.abs(char.dx) > 1 do
       char:slide(char.dx/math.abs(char.dx))
       char.dx = char.dx - char.dx/math.abs(char.dx)
+    end
+    while math.abs(char.mx) > 1 do
+      char:move(char.mx/math.abs(char.mx))
+      char.mx = char.mx - char.mx/math.abs(char.mx)
     end
     char.y = char.y + char.vy * dt
     char.vy = char.vy * 0.995

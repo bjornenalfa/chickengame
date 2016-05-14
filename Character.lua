@@ -16,7 +16,8 @@ function Character.new(x, y, r, owner, image)
         owner=owner,
         image=image,
         hp=100,
-        maxhp=100
+        maxhp=100,
+        lastTurn = 0
   }
   setmetatable(new, Character)
   table.insert(c.list, new)

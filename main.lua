@@ -11,11 +11,13 @@ require "turn"
 
 player1 = Player.new("chicken")
 player2 = Player.new("zombie")
+turn.setPlayerOrder(player1, player2)
 
 function love.load()
   Map.loadMap("map01")
   Character.new(600, 50, 20, player1, image.hen)
   Character.new(500, 50, 20, player2, image.zombie)
+  turn.nextTurn()
 end
 
 function love.mousepressed(x, y, button)
@@ -28,6 +30,7 @@ function love.keypressed(key)
   if key == "escape" then
     love.event.quit()
   end
+  turn.keypressed(key)
 end
 
 time = 0
@@ -37,6 +40,7 @@ function love.update(dt)
   explosions.update(dt)
   Character.update(dt)
   floattext.update(dt)
+  turn.update(dt)
 end
 
 function love.draw()
@@ -45,6 +49,7 @@ function love.draw()
   explosions.drawShake()
   Map.draw()
   Character.draw()
+  turn.draw()
   floattext.draw()
   explosions.draw()
   

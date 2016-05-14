@@ -52,8 +52,8 @@ function camera.update(dt)
     if i.activeEntity and i.activeEntity.x and i.activeEntity.y then
       -- Valid entity to follow. Set camera position based on that.
       -- TODO - make it work.
-      i.posX = -i.activeEntity.x
-      i.posY = -i.activeEntity.y
+      i.posX = -(i.activeEntity.x + (cw - Map.width)/2)
+      i.posY = ((ch - Map.height)/2  - i.activeEntity.y)
     else
       print("Nothing to follow")
     end
@@ -91,8 +91,8 @@ function camera.update(dt)
     if i.activeEntity and i.activeEntity.x and i.activeEntity.y and i.currentlyFollowing then
       -- We have a valid entity which we are tracking.
       -- TODO: Track it.
-      i.posX = -i.activeEntity.x
-      i.posY = -i.activeEntity.y
+      i.posX = -(i.activeEntity.x + (cw - Map.width)/2)
+      i.posY = ((ch - Map.height)/2  - i.activeEntity.y)
     else
       print("Not tracking")
     end

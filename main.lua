@@ -11,6 +11,7 @@ require "turn"
 require "Game"
 require "projectile"
 require "ui"
+require "Object"
 
 player1 = Player.new("chicken",1)
 player2 = Player.new("zombie",2)
@@ -56,6 +57,7 @@ function love.update(dt)
   projectile.update(dt)
   explosions.update(dt)
   Character.update(dt)
+  Object.update(dt)
   floattext.update(dt)
   turn.update(dt)
 end
@@ -66,6 +68,7 @@ function love.draw()
   explosions.drawShake()
   Map.draw()
   Character.draw()
+  object.draw()
   projectile.draw()
   turn.draw()
   floattext.draw()

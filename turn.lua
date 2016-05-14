@@ -92,16 +92,9 @@ debugFlag = false
 t.aimToggleCoolDownLength = 0.5
 t.aimToggleCoolDownRemaining = 0
 function turn.handleInput(dt)
-  if debugFlag then print"Input handling time!!!" end
   if hasInput(END_TURN) then
     t.endTurn()
     return
-  end
-  if debugFlag then print"Turn wasn't ended" end
-  
-  -- Debug command - I key or LB.
-  if hasInput({keyboard={"i"}, gamepad={"leftshoulder"}}) then
-    debugflag = true
   end
   
   -- If we're aiming, check for aiming-related input
@@ -153,22 +146,17 @@ function turn.handleInput(dt)
   if t.aimToggleCoolDownRemaining <= 0 then
   -- Aiming status and firing.
     if (not turn.aiming) and hasInput(CHARACTER_START_AIM) then
-      if debugFlag then print"Enabling aim" end
       turn.aiming = true
       t.aimToggleCoolDownRemaining = t.aimToggleCoolDownLength
     elseif turn.aiming then
-      if debugFlag then print"Aim enabled..." end
       if hasInput(CHARACTER_STOP_AIM) then
-        if debugFlag then print"Stopping aim" end
         turn.aiming = false
         t.aimToggleCoolDownRemaining = t.aimToggleCoolDownLength
       elseif hasInput(CHARACTER_FIRE) then
-        if debugFlag then print"Firing" end
         turn.fire()
       end
     end
   else
-    if debugFlag then print("Aim toggle on cooldown ("..t.aimToggleCoolDownRemaining..")") end
     t.aimToggleCoolDownRemaining = t.aimToggleCoolDownRemaining - dt
   end
 end
@@ -205,50 +193,7 @@ function turn.update(dt)
   
   if t.ending then return end
   if t.playerinput and t.currentCharacter then
-    if t.aiming then
-      if love.joystick.getJoystickCount() > 0 then
-        if love.joystick.getJoystickCount() == 1 then
-          joystick = love.joystick.getJoysticks()[1]
-        elseif love.joystick.getJoystickCount() > 1 then
-          joystick = t.currentPlayer.joystick
-        end
-        y2 = joystick:getGamepadAxis("triggerright") - joystick:getGamepadAxis("triggerleft")
-        t.aimPower = math.min(math.max(100, t.aimPower + y2*400*dt), 800)
-      end
-      if love.keyboard.isDown("a") then
-        t.aimAngle = t.aimAngle - 2*dt
-      end
-      if love.keyboard.isDown("d") then
-        t.aimAngle = t.aimAngle + 2*dt
-      end
-      if love.keyboard.isDown("w") then
-         t.aimPower = math.min(math.max(100, t.aimPower + 400*dt), 800)
-      end
-      if love.keyboard.isDown("s") then
-         t.aimPower = math.min(math.max(100, t.aimPower - 400*dt), 800)
-      end
-    else
-      if love.joystick.getJoystickCount() > 0 then
-        if love.joystick.getJoystickCount() == 1 then
-          joystick = love.joystick.getJoysticks()[1]
-        elseif love.joystick.getJoystickCount() > 1 then
-          joystick = t.currentPlayer.joystick
-        end
-        x1, y1 = joystick:getAxes()
-        if math.abs(x1) > 0.2 then
-          t.currentCharacter.mx = t.currentCharacter.mx + x1
-        end
-      end
-      if love.keyboard.isDown("a") then
-        t.currentCharacter:move(-1)
-      end
-      if love.keyboard.isDown("d") then
-        t.currentCharacter:move(1)
-      end
-      if love.keyboard.isDown("w") then
-        t.currentCharacter:jump()
-      end
-    end
+    t.handleInput(dt)
   end
 end
 

@@ -1,55 +1,85 @@
 camera = {}
-local c = camera
+local i = camera
 
-c.width = love.graphics.getWidth()
-c.height = love.graphics.getHeight()
-c.x = 0
-c.y = 0
-c.scale = 1
-c.mapScale = 1
+i.width = love.graphics.getWidth()
+i.height = love.graphics.getHeight()
+i.posX = 0
+i.posY = 0
+i.scale = 1
+i.mapScale = 1
 
-c.CAMERA_MOVE_DOWN = "down"
-c.CAMERA_MOVE_UP = "up"
-c.CAMERA_MOVE_LEFT = "left"
-c.CAMERA_MOVE_RIGHT = "right"
+camera.CAMERA_MOVE_DOWN = "down"
+camera.CAMERA_MOVE_UP = "up"
+camera.CAMERA_MOVE_LEFT = "left"
+camera.CAMERA_MOVE_RIGHT = "right"
+camera.CAMERA_RESET = "space"
 
-c.cameraSpeed = 200
+i.cameraSpeed = 200
 
-function camera.update()
-  c.width = love.graphics.getWidth()
-  c.height = love.graphics.getHeight()
-  scaleNeed = c.mapScale - c.scale
-  c.scale = c.scale + scaleNeed / 24
+i.mouseListeners = {}
+
+function love.mousepressed(x, y, button)
+  print(x, y)
+  local logicalX = (x + i.posX)/i.mapScale
+  local logicalY = (y + i.posY)/i.mapScale
+  print(logicalX, logicalY)
+  for _, ml in pairs(camera.mouseListeners) do
+    ml.onClick(logicalX, logicalY, button)
+  end
+end
+
+function camera.listen(l)
+  if l ~= nil then
+    table.insert(camera.mouseListeners, l)
+  else
+    print("nil listener")
+  end
+end
+
+function camera.update(dt)
+  i.width = love.graphics.getWidth()
+  i.height = love.graphics.getHeight()
+  scaleNeed = i.mapScale - i.scale
+  i.scale = i.scale + scaleNeed / 24
   
-  if love.keyboard.isDown(c.CAMERA_MOVE_DOWN) then
-    c.y = c.y - c.cameraSpeed
+  local ch,cw = Map.canvas:getDimensions()
+  
+  if love.keyboard.isDown(camera.CAMERA_RESET) then
+    -- TODO: Reset camera position.
+  end
+  if love.keyboard.isDown(camera.CAMERA_MOVE_DOWN) then
+    i.posY = i.posY - i.cameraSpeed
     print("Down")
-    if c.y < 0 then
-      c.y = 0
+    if i.posY > Map.height then
+      i.posY = Map.height
     end
-  elseif love.keyboard.isDown(c.CAMERA_MOVE_UP) then
-    c.y = c.y + c.cameraSpeed
+  elseif love.keyboard.isDown(camera.CAMERA_MOVE_UP) then
+    i.posY = i.posY + i.cameraSpeed
     print("Up")
-    if c.y > Map.height then
-      c.y = Map.height
+    if i.posY < 0 then
+      i.posY = 0
     end
   end
-  if love.keyboard.isDown(c.CAMERA_MOVE_LEFT) then
-    c.x = c.x + c.cameraSpeed
+  if love.keyboard.isDown(camera.CAMERA_MOVE_LEFT) then
+    i.posX = i.posX + i.cameraSpeed
     print("Left")
-    if c.x > Map.width then
-      c.x = Map.width
+    if i.posX < cw - Map.width then
+      print("Too far left (was "..i.posX..")")
+      i.posX = cw - Map.width
     end
-  elseif love.keyboard.isDown(c.CAMERA_MOVE_RIGHT) then
-    c.x = c.x - c.cameraSpeed
+  elseif love.keyboard.isDown(camera.CAMERA_MOVE_RIGHT) then
+    i.posX = i.posX - i.cameraSpeed
     print("Right")
-    if c.x < 0 then c.x = 0 end
+    if i.posX > 0 then
+      i.posX = 0
+      print("Too far right")
+    end
   end
 end
 
 function camera.draw()
-  xCenter = c.x * c.scale 
-  yCenter = c.y * c.scale 
+  local xCenter = i.posX * i.scale 
+  local yCenter = i.posY * i.scale 
   love.graphics.translate(xCenter, yCenter)
-  love.graphics.scale(c.scale)
+  love.graphics.scale(i.scale)
 end

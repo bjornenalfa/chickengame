@@ -5,15 +5,17 @@ require "sound"
 require "explosions"
 require "Character"
 
+main = {}
+assert(main ~= nil)
+
 function love.load()
   Map.loadMap("map01")
   Character.new(500, 50, 10, "dev", image.zombie)
   Character.new(500, 50, 10, "dev", image.hen)
+  camera.listen(main)
 end
 
-function love.mousepressed(x, y, button)
-  x = x - camera.x
-  y = y - camera.y
+function main.onClick(x, y, button)
   Map.circle(x, y, 30)
   explosions.new(x, y, 0.3, 30, true)
 end

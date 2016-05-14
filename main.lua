@@ -9,6 +9,7 @@ require "Character"
 require "Player"
 require "turn"
 require "Game"
+require "projectile"
 
 player1 = Player.new("chicken")
 player2 = Player.new("zombie")
@@ -39,6 +40,7 @@ time = 0
 function love.update(dt)
   time = time + dt
   camera.update(dt)
+  projectile.update(dt)
   explosions.update(dt)
   Character.update(dt)
   floattext.update(dt)
@@ -51,6 +53,7 @@ function love.draw()
   explosions.drawShake()
   Map.draw()
   Character.draw()
+  projectile.draw()
   turn.draw()
   floattext.draw()
   explosions.draw()

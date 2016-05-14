@@ -8,6 +8,7 @@ t.currentCharacter = nil
 
 t.aiming = false
 t.aimAngle = 0
+t.aimPower = 100
 
 t.turnNumber = 0
 
@@ -16,6 +17,7 @@ t.turnTimer = 0
 t.timerActive = false
 
 t.ending = false
+t.playerinput = false
 
 function turn.setPlayerOrder(...)
   t.playerOrder = {...}
@@ -57,16 +59,19 @@ function turn.nextTurn()
   t.aiming = false
   t.aimAngle = 0
   t.ending = false
+  t.playerinput = true
 end
 
 function turn.fire()
   --image, locationX, locationY, length, width, speed, angle, damage, owner, duration
-  pr = projectile.new(image.bazooka_missile, char.x + math.cos(t.aimAngle)*20, char.y + math.sin(t.aimAngle)*20, 10, 30, 400, t.aimAngle, 50, t.currentPlayer, 30)
-  t.ending = true
+  pr = projectile.new(image.bazooka_missile, char.x + math.cos(t.aimAngle)*20, char.y + math.sin(t.aimAngle)*20, 10, 30, t.aimPower, t.aimAngle, 50, t.currentPlayer, 30)
+  t.playerinput = false
+  t.aiming = false
   camera.trackEntity(pr)
 end
 
 function turn.gamepadpressed(joystick, button)
+  if not t.playerinput then return end
   if not t.ending then
     if t.currentCharacter then
       if button == "x" then
@@ -91,6 +96,7 @@ function turn.gamepadpressed(joystick, button)
 end
 
 function turn.gamepadaxis(joystick, axis)
+  if not t.playerinput then return end
   --print(joystick)
   if t.currentCharacter then
     char = t.currentCharacter
@@ -102,6 +108,7 @@ function turn.gamepadaxis(joystick, axis)
 end
 
 function turn.keypressed(key)
+  if not t.playerinput then return end
   if t.ending then return end
   if key == "space" then
     if not t.aiming then
@@ -139,8 +146,15 @@ function turn.update(dt)
   end
   
   if t.ending then return end
-  if t.currentCharacter then
+  if t.playerinput and t.currentCharacter then
     if t.aiming then
+      if love.joystick.getJoystickCount() > 0 then
+        joystick = love.joystick.getJoysticks()[1]
+        y2 = joystick:getGamepadAxis("triggerright") - joystick:getGamepadAxis("triggerleft")
+        if math.abs(y2) > 0.2 then
+          t.aimPower = math.min(math.max(100, t.aimPower + y2*100*dt), 800)
+        end
+      end
       if love.keyboard.isDown("a") then
         t.aimAngle = t.aimAngle - 2*dt
       end
@@ -150,8 +164,9 @@ function turn.update(dt)
     else
       if love.joystick.getJoystickCount() > 0 then
         joystick = love.joystick.getJoysticks()[1]
-        if math.abs(joystick:getAxes()) > 0.1 then
-          t.currentCharacter.mx = t.currentCharacter.mx + joystick:getAxes()
+        x1, y1 = joystick:getAxes()
+        if math.abs(x1) > 0.2 then
+          t.currentCharacter.mx = t.currentCharacter.mx + x1
         end
       end
       if love.keyboard.isDown("a") then
@@ -175,6 +190,8 @@ function turn.draw()
     if t.aiming then
       love.graphics.setColor(0,255,0)
       love.graphics.line(char.x + math.cos(t.aimAngle)*20, char.y + math.sin(t.aimAngle)*20, char.x + math.cos(t.aimAngle)*60, char.y + math.sin(t.aimAngle)*60)
+      pangle = 0.3
+      love.graphics.polygon("fill", char.x + math.cos(t.aimAngle-pangle)*20, char.y + math.sin(t.aimAngle-pangle)*20, char.x + math.cos(t.aimAngle-pangle)*(30+10*(t.aimPower/100)), char.y + math.sin(t.aimAngle-pangle)*(30+10*(t.aimPower/100)), char.x + math.cos(t.aimAngle+pangle)*(30+10*(t.aimPower/100)), char.y + math.sin(t.aimAngle+pangle)*(30+10*(t.aimPower/100)), char.x + math.cos(t.aimAngle+pangle)*20, char.y + math.sin(t.aimAngle+pangle)*20)
     end
   end
 end

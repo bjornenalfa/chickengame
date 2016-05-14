@@ -17,7 +17,8 @@ function Character.new(x, y, r, owner, image)
         image=image,
         hp=100,
         maxhp=100,
-        lastTurn = 0
+        lastTurn = 0,
+        dead = false
   }
   setmetatable(new, Character)
   table.insert(c.list, new)
@@ -104,12 +105,16 @@ function Character:damage(damage)
   end
 end
 
+function Character:die()
+  Game.explode(self.x, self.y, 20, 200, 30)
+end
+
 function Character.explosion(x, y, r, power, damage)
   for i,char in pairs(c.list) do
     distance = math.sqrt((char.x-x)*(char.x-x)+(char.y-y)*(char.y-y))
     if distance <= r + char.r then
-      depth = math.max(0,distance - r)
-      strength = (char.r-depth)/char.r
+      depth = math.max(0,distance - char.r)
+      strength = (r-depth)/r
       char:damage(damage*strength)
       impulse = power*strength
       direction = math.atan2(char.y-y, char.x-x)
@@ -124,6 +129,7 @@ function Character.explosion(x, y, r, power, damage)
 end
 
 function Character.update(dt)
+  dead = {}
   for i,char in pairs(c.list) do
     if love.keyboard.isDown("a") then
       char:move(-1)
@@ -164,6 +170,17 @@ function Character.update(dt)
     end
     char.y = char.y + char.vy * dt
     char.vy = char.vy * 0.995
+    if char.y > Map.height or char.hp < 0 then
+      char.dead = true
+    end
+    if char.dead then
+      table.insert(dead,i)
+    end
+  end
+  for i = #dead, 1, -1 do
+    char = c.list[dead[i]]
+    table.remove(c.list, dead[i])
+    char:die()
   end
 end
 

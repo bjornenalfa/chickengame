@@ -8,6 +8,7 @@ require "explosions"
 require "Character"
 require "Player"
 require "turn"
+require "Game"
 
 player1 = Player.new("chicken")
 player2 = Player.new("zombie")
@@ -21,9 +22,7 @@ function love.load()
 end
 
 function love.mousepressed(x, y, button)
-  Map.circle(x, y, 30)
-  explosions.new(x, y, 0.3, 30, true)
-  Character.explosion(x, y, 30, 300, 50)
+  Game.explode(x, y, 30, 300, 50)
 end
 
 function love.keypressed(key)

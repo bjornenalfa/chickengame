@@ -34,8 +34,6 @@ end
 function camera.listen(l)
   if l ~= nil then
     table.insert(camera.mouseListeners, l)
-  else
-    print("nil listener")
   end
 end
 
@@ -45,7 +43,7 @@ function camera.update(dt)
   scaleNeed = i.mapScale - i.scale
   i.scale = i.scale + scaleNeed / 24
   
-  local ch,cw = Map.canvas:getDimensions()
+  local cw,ch = love.graphics:getDimensions()
   
   if love.keyboard.isDown(camera.CAMERA_RESET) then
     i.currentlyFollowing = true
@@ -54,47 +52,48 @@ function camera.update(dt)
       -- TODO - make it work.
       i.posX = -(i.activeEntity.x + (cw - Map.width)/2)
       i.posY = ((ch - Map.height)/2  - i.activeEntity.y)
-    else
-      print("Nothing to follow")
     end
   elseif love.keyboard.isDown(camera.CAMERA_MOVE_DOWN) then
     i.currentlyFollowing = false
     i.posY = i.posY - (i.cameraSpeed * dt)
-    print("Down")
-    
   elseif love.keyboard.isDown(camera.CAMERA_MOVE_UP) then
     i.currentlyFollowing = false
     i.posY = i.posY + (i.cameraSpeed * dt)
-    print("Up")
   elseif love.keyboard.isDown(camera.CAMERA_MOVE_LEFT) then
     i.currentlyFollowing = false
     i.posX = i.posX + (i.cameraSpeed * dt)
-    print("Left")
-  
   elseif love.keyboard.isDown(camera.CAMERA_MOVE_RIGHT) then
     i.currentlyFollowing = false
     i.posX = i.posX - (i.cameraSpeed * dt)
-    print("Right")
   else -- No manual camera movement
     if i.activeEntity and i.activeEntity.x and i.activeEntity.y and i.currentlyFollowing then
       -- We have a valid entity which we are tracking.
       -- TODO: Track it.
       i.posX = -(i.activeEntity.x + (cw - Map.width)/2)
       i.posY = ((ch - Map.height)/2  - i.activeEntity.y)
-    else
-      print("Not tracking")
     end
   end
   
-  if i.posY < -Map.height then
-    i.posY = -Map.height
-  elseif i.posY > 0 then
-    i.posY = 0
+  -- Boundary checking - the camera should show nothing outside the map.
+  -- TODO: Make it actually work when moving camera down or right.
+  local minY = ch - Map.height
+  local maxY = 0
+  local minX = cw - Map.width
+  local maxX = 0
+  
+  if i.posY < minY then
+    i.posY = minY
+    print("Y too low!")
+  elseif i.posY > maxY then
+    i.posY = maxY
+    print("Y too high!")
   end
-  if i.posX < -Map.width then
-    i.posX = -Map.width
-  elseif i.posX > 0 then
-    i.posX = 0
+  if i.posX < minX then
+    i.posX = minX
+    print("X too low!")
+  elseif i.posX > maxX then
+    i.posX = maxX
+    print("X too high!")
   end
 
 end
@@ -109,4 +108,6 @@ function camera.draw()
   local yCenter = i.posY * i.scale 
   love.graphics.translate(xCenter, yCenter)
   love.graphics.scale(i.scale)
+  
+  
 end

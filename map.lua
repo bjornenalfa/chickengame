@@ -82,5 +82,11 @@ function Map.draw()
     love.graphics.draw(m["canvas"..layer])
   end
   love.graphics.draw(m.canvas)
+  
+  love.graphics.setColor(255,0,0)
+  love.graphics.print("Camera: "..camera.posX..", "..camera.posY, -camera.posX, -camera.posY)
+  love.graphics.print("MAp dimensions: "..Map.width..", "..Map.height, -camera.posX, -camera.posY + 10)
+  local w,h = love.graphics:getDimensions()
+  love.graphics.print("Window dimensions: "..w..", "..h, -camera.posX, -camera.posY + 20)
 end
 

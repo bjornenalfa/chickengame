@@ -68,7 +68,7 @@ function Map.circle(x, y, r)
 end
 
 function Map.isSolid(x, y)
-  r,g,b,a = m.canvasData:getPixel(math.min(math.max(0,math.floor(x)),m.width-1), math.min(math.max(0,math.floor(y)),m.height-1))
+  local r,g,b,a = m.canvasData:getPixel(math.min(math.max(0,math.floor(x)),m.width-1), math.min(math.max(0,math.floor(y)),m.height-1))
   return a == 255
 end
 

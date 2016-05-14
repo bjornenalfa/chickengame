@@ -87,12 +87,12 @@ function camera.update(dt)
   end
   
   if i.posY < -Map.height then
-    i.posY = Map.height
+    i.posY = -Map.height
   elseif i.posY > 0 then
     i.posY = 0
   end
-  if i.posX < cw - Map.width then
-    i.posX = cw - Map.width
+  if i.posX < -Map.width then
+    i.posX = -Map.width
   elseif i.posX > 0 then
     i.posX = 0
   end

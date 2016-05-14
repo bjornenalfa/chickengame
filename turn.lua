@@ -22,7 +22,7 @@ function turn.setPlayerOrder(...)
 end
 
 function turn.endTurn()
-  t.turnTimer = 5
+  t.turnTimer = 2
   t.ending = true
   --turn.nextTurn()
 end

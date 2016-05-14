@@ -63,9 +63,9 @@ end
 
 function Object.explosion(x, y, r, power)
   for i,obj in pairs(o.list) do
-    obj:explode()
     distance = math.sqrt((obj.x-x)*(obj.x-x)+(obj.y-y)*(obj.y-y))
     if distance <= r + obj.r then
+      obj:explode()
       depth = math.max(0,distance - obj.r)
       strength = (r-depth)/r
       impulse = power*strength

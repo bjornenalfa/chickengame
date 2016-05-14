@@ -57,8 +57,13 @@ function Object:die()
   --Game.explode(self.x, self.y, 20, 200, 30)
 end
 
+function Object:explode()
+  
+end
+
 function Object.explosion(x, y, r, power)
   for i,obj in pairs(o.list) do
+    obj:explode()
     distance = math.sqrt((obj.x-x)*(obj.x-x)+(obj.y-y)*(obj.y-y))
     if distance <= r + obj.r then
       depth = math.max(0,distance - obj.r)

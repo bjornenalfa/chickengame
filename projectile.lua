@@ -38,7 +38,7 @@ function projectile.update(dt)
       pr.remove = true
     else
       -- First, update position
-      ax = 0 -- If we want projectiles that slow down, we can add that later.
+      ax = turn.wind -- If we want projectiles that slow down, we can add that later.
       ay = Game.gravity -- Accelerate down at 10px/whateverTimeUnitWeUse by default. Probably not a reasonable number.
       pr.vx = pr.vx + (dt * ax) -- Update velocities
       pr.vy = pr.vy + (dt * ay) 

@@ -21,6 +21,7 @@ turn.setPlayerOrder(player1, player2)
 main = {}
 
 function love.load()
+  math.randomseed(os.time())
   camera.listen(main)
   Map.loadMap("map03")
   Character.new(600, 50, 20, player1, image.hen, image.hen_leg)

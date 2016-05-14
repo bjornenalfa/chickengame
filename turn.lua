@@ -20,6 +20,8 @@ t.timerActive = false
 t.ending = false
 t.playerinput = false
 
+t.wind = 0
+
 function turn.setPlayerOrder(...)
   t.playerOrder = {...}
 end
@@ -62,6 +64,7 @@ function turn.nextTurn()
   t.aimAngle = 0
   t.ending = false
   t.playerinput = true
+  t.wind = math.random(-150,150)
 end
 
 function turn.fire()
@@ -232,4 +235,15 @@ function turn.uidraw()
   love.graphics.setFont(font.base)
   love.graphics.print(math.ceil(t.turnTimer), 0, 0)
   love.graphics.setFont(font.normal)
+  
+  bottomy = love.graphics.getHeight()
+  love.graphics.setColor(0,0,0)
+  love.graphics.rectangle("line",5,bottomy-25,60,20)
+  love.graphics.setColor(180,180,180)
+  love.graphics.rectangle("fill",5,bottomy-25,60,20)
+  love.graphics.setColor(HSV(150-math.abs(t.wind),255,255))
+  love.graphics.rectangle("fill",35,bottomy-23,t.wind*(30/150),16)
+  love.graphics.setColor(0,0,0)
+  love.graphics.rectangle("fill",35,bottomy-23,1,16)
+  love.graphics.print("wind",7,bottomy-21)
 end

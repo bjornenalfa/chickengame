@@ -60,7 +60,7 @@ function Map.circle(x, y, r)
   
   love.graphics.setCanvas(m.canvas4)
   love.graphics.setColor(0,0,0,0)
-  love.graphics.circle("fill",x,y,math.max(0,r-30))
+  love.graphics.circle("fill",x,y,math.max(0,r-40))
   
   love.graphics.setBlendMode("alpha")
   love.graphics.setCanvas()

@@ -111,12 +111,18 @@ end
 function Character:damage(damage)
   damage = math.floor(damage+0.5)
   if damage > 0 then
+    if self == turn.currentCharacter then
+      turn.endTurn()
+    end
     self.hp = self.hp - damage
     floattext.new("-"..damage, self.x, self.y, {255,255,255}, font.base)
   end
 end
 
 function Character:die()
+  if self == turn.currentCharacter then
+      turn.endTurn()
+    end
   Game.explode(self.x, self.y, 20, 200, 30)
 end
 
@@ -154,8 +160,8 @@ function Character.update(dt)
       char.y = char.y - 1
     end
     if char:solid("under") then
-      if char.vy > 300 then
-        char:damage((char.vy-300)*0.5)
+      if char.vy > 400 then
+        char:damage((char.vy-400)*0.5)
       end
       if char.vy > 0 then
         while char:solid("under") do

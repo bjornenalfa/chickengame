@@ -83,9 +83,7 @@ function turn.gamepadpressed(joystick, button)
       elseif button == "x" then
         t.aiming = false
       elseif button == "a" then
-        if t.currentCharacter:solid("under") then
-          t.currentCharacter:jump()
-        end
+        t.currentCharacter:jump()
       elseif button == "b" then
         if t.aiming then
           t.aiming = false

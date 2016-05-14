@@ -42,7 +42,7 @@ function Character:solid(side)
 end
 
 function Character:move(dx)
-  char.moved = true
+  self.moved = true
   if dx < 0 then
     self.direction = "left"
   else

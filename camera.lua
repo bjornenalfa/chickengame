@@ -43,9 +43,7 @@ function camera.update(dt)
   
   local cw,ch = love.graphics:getDimensions()
   
-  local joysticks = love.joystick.getJoysticks()
-  
-  if hasInput(CAMERA_RESET, joysticks) then
+  if hasInput(CAMERA_RESET) then
     i.currentlyFollowing = true
     if i.activeEntity and i.activeEntity.x and i.activeEntity.y then
       -- Valid entity to follow. Set camera position based on that.
@@ -53,16 +51,16 @@ function camera.update(dt)
       i.posX = (i.activeEntity.x - (cw/2 + (i.activeEntity.r or 0)))
       i.posY = (i.activeEntity.y - (ch/2 + (i.activeEntity.r or 0)))
     end
-  elseif hasInput(CAMERA_MOVE_DOWN, joysticks) then
+  elseif hasInput(CAMERA_MOVE_DOWN) then
     i.currentlyFollowing = false
     i.posY = i.posY + (i.cameraSpeed * dt)
-  elseif hasInput(CAMERA_MOVE_UP, joysticks) then
+  elseif hasInput(CAMERA_MOVE_UP) then
     i.currentlyFollowing = false
     i.posY = i.posY - (i.cameraSpeed * dt)
-  elseif hasInput(CAMERA_MOVE_LEFT, joysticks) then
+  elseif hasInput(CAMERA_MOVE_LEFT) then
     i.currentlyFollowing = false
     i.posX = i.posX - (i.cameraSpeed * dt)
-  elseif hasInput(CAMERA_MOVE_RIGHT, joysticks) then
+  elseif hasInput(CAMERA_MOVE_RIGHT) then
     i.currentlyFollowing = false
     i.posX = i.posX + (i.cameraSpeed * dt)
   else -- No manual camera movement

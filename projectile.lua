@@ -10,6 +10,7 @@ p.furthestRightAllowed = (Map.width * 2) + 500
 
 p.maxDuration = -1
 
+-- Do we actually need length, width?
 function projectile.new(image, locationX, locationY, length, width, speed, angle, damage, owner, power, radius)
   new = {
       img = image,

@@ -68,24 +68,11 @@ function turn.nextTurn()
 end
 
 function turn.fire()
-  --image, locationX, locationY, length, width, speed, angle, damage, owner, duration
+  --image, locationX, locationY, length, width, speed, angle, damage, owner, duration, radius
   pr = projectile.new(image.bazooka_missile, char.x + math.cos(t.aimAngle)*25, char.y + math.sin(t.aimAngle)*25, 10, 30, t.aimPower, t.aimAngle, 50, t.currentPlayer, 200, 50)
   t.playerinput = false
   t.aiming = false
   camera.trackEntity(pr)
-end
-
-function turn.gamepadaxis(joystick, axis)
-  if not t.playerinput then return end
-  if not t.currentPlayer.joystick == joystick then return end
-  --print(joystick)
-  if t.currentCharacter then
-    char = t.currentCharacter
-    x, y = joystick:getAxes()
-    if t.aiming then
-      t.aimAngle = math.atan2(y, x)
-    end
-  end
 end
 
 debugFlag = false
@@ -99,11 +86,14 @@ function turn.handleInput(dt)
   
   -- If we're aiming, check for aiming-related input
   if t.aiming then
-    -- Axes aren't handled by hasInput(), so are handled manually here
+    -- hasInput() doesn't handle multiple axes at once, so stick aiming is done here.
     local joystick = t.currentPlayer.joystick
     if joystick then
-      y2 = joystick:getGamepadAxis("triggerright") - joystick:getGamepadAxis("triggerleft")
-      t.aimPower = math.min(math.max(100, t.aimPower + y2*400*dt), 800)
+      local x, y = joystick:getAxes()
+      local aimDeadzone = 0.04
+      if x*x + y*y >= aimDeadzone then
+        t.aimAngle = math.atan2(y, x)
+      end
     end
     -- Now for the aiming mode hasInput() checks.
     if hasInput(CHARACTER_AIM_LEFT) then
@@ -120,15 +110,6 @@ function turn.handleInput(dt)
     end
   else
     -- Not aiming.
-    -- First, axes.
-    if love.joystick.getJoystickCount() > 0 then
-      joystick = love.joystick.getJoysticks()[1]
-      x1, y1 = joystick:getAxes()
-      if math.abs(x1) > 0.2 then
-        t.currentCharacter.mx = t.currentCharacter.mx + x1
-      end
-    end
-    -- Next, hasInput() checks
     if hasInput(CHARACTER_MOVE_LEFT) then
       t.currentCharacter:move(-1)
     end

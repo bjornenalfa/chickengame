@@ -95,10 +95,6 @@ function main.onClick(x, y, button)
   Game.explode(x, y, 30, 300, 50)
 end
 
-function love.gamepadaxis(joystick, axis)
-  turn.gamepadaxis(joystick, axis)
-end
-
 function love.keypressed(key)
   if key == "escape" then
     love.event.quit()

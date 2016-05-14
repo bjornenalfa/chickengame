@@ -35,10 +35,6 @@ function main.onClick(x, y, button)
   Game.explode(x, y, 30, 300, 50)
 end
 
-function love.gamepadpressed(joystick, button)
-  turn.gamepadpressed(joystick, button)
-end
-
 function love.gamepadaxis(joystick, axis)
   turn.gamepadaxis(joystick, axis)
 end

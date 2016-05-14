@@ -107,12 +107,8 @@ function turn.handleInput(dt)
   -- If we're aiming, check for aiming-related input
   if t.aiming then
     -- Axes aren't handled by hasInput(), so are handled manually here
-    if love.joystick.getJoystickCount() > 0 then
-      if love.joystick.getJoystickCount() == 1 then
-        joystick = love.joystick.getJoysticks()[1]
-      elseif love.joystick.getJoystickcount() > 1 then
-        joystick = t.currentPlayer.joystick
-      end
+    local joystick = t.currentPlayer.joystick
+    if joystick then
       y2 = joystick:getGamepadAxis("triggerright") - joystick:getGamepadAxis("triggerleft")
       t.aimPower = math.min(math.max(100, t.aimPower + y2*400*dt), 800)
     end

@@ -181,7 +181,11 @@ function turn.update(dt)
       end
     else
       if love.joystick.getJoystickCount() > 0 then
-        joystick = love.joystick.getJoysticks()[1]
+        if love.joystick.getJoystickCount() == 1 then
+          joystick = love.joystick.getJoysticks()[1]
+        elseif love.joystick.getJoystickCount() > 1 then
+          joystick = t.currentPlayer.joystick
+        end
         x1, y1 = joystick:getAxes()
         if math.abs(x1) > 0.2 then
           t.currentCharacter.mx = t.currentCharacter.mx + x1

@@ -75,9 +75,14 @@ function Object.explosion(x, y, r, power)
   end
 end
 
-function Object.update(dt)
+function Object:update(dt)
+  
+end
+
+function Object.updateAll(dt)
   dead = {}
   for i,obj in pairs(o.list) do
+    obj:update(dt)
     if obj.vy < 0 and obj:solid("above") then
       obj.vy = 1
       while obj:solid("above") do
@@ -119,12 +124,16 @@ function Object.update(dt)
   end
 end
 
-function Object.draw()
+function Object:draw()
+  love.graphics.setColor(255,255,255)
+  love.graphics.draw(self.image, self.x, self.y, 0, 1, 1, self.image:getWidth()/2, self.image:getHeight()/2)
+  love.graphics.setColor(255,0,0,100)
+  --love.graphics.circle("fill",self.x, self.y, self.r)
+end
+
+function Object.drawAll()
   love.graphics.setColor(255,255,255)
   for i,obj in pairs(o.list) do
-    love.graphics.setColor(255,255,255)
-    love.graphics.draw(obj.image, obj.x, obj.y, 0, 1, 1, obj.image:getWidth()/2, obj.image:getHeight()/2)
-    love.graphics.setColor(255,0,0,100)
-    --love.graphics.circle("fill",obj.x, obj.y, obj.r)
+    obj:draw()
   end
 end

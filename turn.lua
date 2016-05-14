@@ -117,6 +117,8 @@ function turn.keypressed(key)
     end
   elseif key == "f" then
     t.fire()
+  elseif key == "m" then
+    Mine.new(t.currentCharacter.x, t.currentCharacter.y)
   end
 end
 

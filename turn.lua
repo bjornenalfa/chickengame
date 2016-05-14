@@ -161,7 +161,7 @@ function turn.update(dt)
       if love.joystick.getJoystickCount() > 0 then
         if love.joystick.getJoystickCount() == 1 then
           joystick = love.joystick.getJoysticks()[1]
-        elseif love.joystick.getJoystickcount() > 1 then
+        elseif love.joystick.getJoystickCount() > 1 then
           joystick = t.currentPlayer.joystick
         end
         y2 = joystick:getGamepadAxis("triggerright") - joystick:getGamepadAxis("triggerleft")

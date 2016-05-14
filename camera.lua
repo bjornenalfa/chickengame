@@ -88,7 +88,7 @@ function camera.update(dt)
       print("Too far right")
     end
   else -- No manual camera movement
-    if i.activeEntity and activeEntity.x and activeEntity.y and i.currentlyFollowing then
+    if i.activeEntity and i.activeEntity.x and i.activeEntity.y and i.currentlyFollowing then
       -- We have a valid entity which we are tracking.
       -- TODO: Track it.
     end
@@ -97,7 +97,7 @@ end
 
 function camera.trackEntity(target)
   i.activeEntity = target
-  t.currentlyFollowing = true
+  i.currentlyFollowing = true
 end
 
 function camera.draw()

@@ -35,10 +35,16 @@ function explosions.update(dt)
   end
 end
 
-function explosions.draw()
+function explosions.drawShake()
   love.graphics.setColor(255,255,255)
   for _,v in pairs(e.explosions) do
     love.graphics.translate(math.random(-5,5), math.random(-5,5))
+  end
+end
+
+function explosions.draw()
+  love.graphics.setColor(255,255,255)
+  for _,v in pairs(e.explosions) do
     img = image["planetexplosion"..v.frame]
     w = img:getWidth()
     h = img:getHeight()

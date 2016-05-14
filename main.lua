@@ -6,17 +6,22 @@ require "map"
 require "sound"
 require "explosions"
 require "Character"
+require "Player"
+require "turn"
+
+player1 = Player.new("chicken")
+player2 = Player.new("zombie")
 
 function love.load()
   Map.loadMap("map01")
-  Character.new(500, 50, 10, "dev", image.zombie)
-  Character.new(500, 50, 10, "dev", image.hen)
+  Character.new(600, 50, 20, player1, image.hen)
+  Character.new(500, 50, 20, player2, image.zombie)
 end
 
 function love.mousepressed(x, y, button)
   Map.circle(x, y, 30)
   explosions.new(x, y, 0.3, 30, true)
-  Character.explosion(x, y, 30, 500, 50)
+  Character.explosion(x, y, 30, 300, 50)
 end
 
 function love.keypressed(key)
@@ -37,10 +42,11 @@ end
 function love.draw()
   camera.draw()
   Map.drawBackground()
-  explosions.draw()
+  explosions.drawShake()
   Map.draw()
   Character.draw()
   floattext.draw()
+  explosions.draw()
   
   love.graphics.setColor(0,0,0)
   if Map.isSolid(love.mouse.getPosition()) then

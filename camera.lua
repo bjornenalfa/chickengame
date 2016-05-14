@@ -6,7 +6,7 @@ c.height = love.graphics.getHeight()
 c.x = 0
 c.y = 0
 c.scale = 0.001
-c.mapScale = 0.7
+c.mapScale = 1
 
 function camera.update()
   c.width = love.graphics.getWidth()

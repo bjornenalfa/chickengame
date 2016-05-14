@@ -8,11 +8,11 @@ i.posY = 0
 i.scale = 1
 i.mapScale = 1
 
-camera.CAMERA_MOVE_DOWN = "down"
-camera.CAMERA_MOVE_UP = "up"
-camera.CAMERA_MOVE_LEFT = "left"
-camera.CAMERA_MOVE_RIGHT = "right"
-camera.CAMERA_RESET = "h"
+camera.CAMERA_MOVE_DOWN = {keyboard={"down"}, gamepad={"dpdown"}}
+camera.CAMERA_MOVE_UP = {keyboard={"up"}, gamepad={"dpup"}}
+camera.CAMERA_MOVE_LEFT = {keyboard={"left"}, gamepad={"dpleft"}}
+camera.CAMERA_MOVE_RIGHT = {keyboard={"right"}, gamepad={"dpright"}}
+camera.CAMERA_RESET = {keyboard={"h"}, gamepad={"y"}}
 
 i.activeEntity = nil
 i.currentlyFollowing = false
@@ -37,6 +37,22 @@ function camera.listen(l)
   end
 end
 
+function hasInput(inputs, gamepads)
+  gamepads = gamepads or {}
+  inputs = inputs or {}
+  inputs["keyboard"] = inputs["keyboard"] or {}
+  inputs["gamepad"] = inputs["gamepad"] or {}
+  for _,kbinput in pairs(inputs["keyboard"]) do
+    if (type(kbinput)=="string") and love.keyboard.isDown(kbinput) then return true end
+  end
+  for _,gpinput in pairs(inputs["gamepad"]) do
+    for _,gamepad in pairs(gamepads) do
+      if (type(gpinput)=="string") and gamepad:isGamepadDown(gpinput) then return true end
+    end
+  end
+  return false
+end
+
 function camera.update(dt)
   i.width = love.graphics.getWidth()
   i.height = love.graphics.getHeight()
@@ -45,7 +61,9 @@ function camera.update(dt)
   
   local cw,ch = love.graphics:getDimensions()
   
-  if love.keyboard.isDown(camera.CAMERA_RESET) then
+  local joysticks = love.joystick.getJoysticks()
+  
+  if hasInput(camera.CAMERA_RESET, joysticks) then
     i.currentlyFollowing = true
     if i.activeEntity and i.activeEntity.x and i.activeEntity.y then
       -- Valid entity to follow. Set camera position based on that.
@@ -53,16 +71,16 @@ function camera.update(dt)
       i.posX = -(i.activeEntity.x + (cw - Map.width)/2)
       i.posY = ((ch - Map.height)/2  - i.activeEntity.y)
     end
-  elseif love.keyboard.isDown(camera.CAMERA_MOVE_DOWN) then
+  elseif hasInput(camera.CAMERA_MOVE_DOWN, joysticks) then
     i.currentlyFollowing = false
     i.posY = i.posY - (i.cameraSpeed * dt)
-  elseif love.keyboard.isDown(camera.CAMERA_MOVE_UP) then
+  elseif hasInput(camera.CAMERA_MOVE_UP, joysticks) then
     i.currentlyFollowing = false
     i.posY = i.posY + (i.cameraSpeed * dt)
-  elseif love.keyboard.isDown(camera.CAMERA_MOVE_LEFT) then
+  elseif hasInput(camera.CAMERA_MOVE_LEFT, joysticks) then
     i.currentlyFollowing = false
     i.posX = i.posX + (i.cameraSpeed * dt)
-  elseif love.keyboard.isDown(camera.CAMERA_MOVE_RIGHT) then
+  elseif hasInput(camera.CAMERA_MOVE_RIGHT, joysticks) then
     i.currentlyFollowing = false
     i.posX = i.posX - (i.cameraSpeed * dt)
   else -- No manual camera movement

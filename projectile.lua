@@ -74,7 +74,7 @@ function projectile.update(dt)
   for i = #removeList, 1, -1 do
     pr = p.projectiles[removeList[i]]
     Game.explode(pr.x, pr.y, pr.w, 100, pr.d)
-    if turn.ending then
+    if not turn.playerinput then
       turn.endTurn()
     end
     table.remove(p.projectiles, removeList[i])

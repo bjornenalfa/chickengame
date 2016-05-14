@@ -26,6 +26,7 @@ function love.load()
   Character.new(500, 50, 25, player2, image.zombie, image.zombie_leg)
   Character.new(400, 50, 25, player2, image.zombie2, image.zombie_leg)
   turn.nextTurn()
+  sound.play("theme")
 end
 
 function main.onClick(x, y, button)

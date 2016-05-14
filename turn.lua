@@ -72,6 +72,7 @@ end
 
 function turn.gamepadpressed(joystick, button)
   if not t.playerinput then return end
+  if not t.currentPlayer.joystick == joystick then return end
   if not t.ending then
     if t.currentCharacter then
       if button == "x" then
@@ -95,6 +96,7 @@ end
 
 function turn.gamepadaxis(joystick, axis)
   if not t.playerinput then return end
+  if not t.currentPlayer.joystick == joystick then return end
   --print(joystick)
   if t.currentCharacter then
     char = t.currentCharacter
@@ -147,7 +149,11 @@ function turn.update(dt)
   if t.playerinput and t.currentCharacter then
     if t.aiming then
       if love.joystick.getJoystickCount() > 0 then
-        joystick = love.joystick.getJoysticks()[1]
+        if love.joystick.getJoystickCount() == 1 then
+          joystick = love.joystick.getJoysticks()[1]
+        elseif love.joystick.getJoystickcount() > 1 then
+          joystick = t.currentPlayer.joystick
+        end
         y2 = joystick:getGamepadAxis("triggerright") - joystick:getGamepadAxis("triggerleft")
         t.aimPower = math.min(math.max(100, t.aimPower + y2*400*dt), 800)
       end

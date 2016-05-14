@@ -12,8 +12,8 @@ require "Game"
 require "projectile"
 require "ui"
 
-player1 = Player.new("chicken")
-player2 = Player.new("zombie")
+player1 = Player.new("chicken",1)
+player2 = Player.new("zombie",2)
 turn.setPlayerOrder(player1, player2)
 
 main = {}

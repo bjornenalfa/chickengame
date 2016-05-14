@@ -20,7 +20,8 @@ function turn.endTurn()
   turn.nextTurn()
 end
 
-function turn.nextTurn()
+function turn.nextTurn(depth)
+  if depth == nil then depth = 0 end
   t.turnNumber = t.turnNumber + 1
   t.currentPlayerIndex = (t.currentPlayerIndex % #t.playerOrder) + 1
   t.currentPlayer = t.playerOrder[t.currentPlayerIndex]
@@ -35,8 +36,12 @@ function turn.nextTurn()
     end
   end
   if oldest == nil then
+    if depth > #t.playerOrder then
+      print("oh it is game over")
+      return
+    end
     print("next player has no characters left?")
-    return turn.nextTurn()
+    return turn.nextTurn(depth+1)
   end
   oldest.lastTurn = t.turnNumber
   t.currentCharacter = oldest
@@ -52,6 +57,16 @@ function turn.update(dt)
   t.turnTimer = t.turnTimer - dt
   if t.turnTimer <= 0 then
     t.endTurn()
+  end
+  
+  if love.keyboard.isDown("a") then
+    t.currentCharacter:move(-1)
+  end
+  if love.keyboard.isDown("d") then
+    t.currentCharacter:move(1)
+  end
+  if love.keyboard.isDown("w") then
+    t.currentCharacter:jump()
   end
 end
 

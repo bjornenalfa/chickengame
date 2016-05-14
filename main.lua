@@ -18,7 +18,7 @@ main = {}
 
 function love.load()
   camera.listen(main)
-  Map.loadMap("map01")
+  Map.loadMap("map02")
   Character.new(600, 50, 20, player1, image.hen, image.hen_leg)
   Character.new(500, 50, 20, player2, image.zombie, image.zombie_leg)
   turn.nextTurn()

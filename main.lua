@@ -52,10 +52,10 @@ function love.draw()
   floattext.draw()
   explosions.draw()
   
-  love.graphics.setColor(0,0,0)
+  --[[love.graphics.setColor(0,0,0)
   if Map.isSolid(love.mouse.getPosition()) then
     love.graphics.print("solid",0,0)
   else
     love.graphics.print("air",0,0)
-  end
+  end]]
 end

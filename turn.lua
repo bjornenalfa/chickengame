@@ -15,12 +15,16 @@ t.turnTime = 60
 t.turnTimer = 0
 t.timerActive = false
 
+t.ending = false
+
 function turn.setPlayerOrder(...)
   t.playerOrder = {...}
 end
 
 function turn.endTurn()
-  turn.nextTurn()
+  t.turnTimer = 5
+  t.ending = true
+  --turn.nextTurn()
 end
 
 function turn.nextTurn()
@@ -32,7 +36,7 @@ function turn.nextTurn()
     if char.owner == t.currentPlayer then 
       if oldest == nil then
         oldest = char
-      elseif char.lastTurn < oldest.lastTurn then
+      elseif char.lastTurn < oldest.lastTurn and not char.dead and char.hp > 0 then
         oldest = char
       end
     end
@@ -52,9 +56,11 @@ function turn.nextTurn()
   t.turnTimer = t.turnTime
   t.aiming = false
   t.aimAngle = 0
+  t.ending = false
 end
 
 function turn.keypressed(key)
+  if t.ending then return end
   if key == "space" then
     if not t.aiming then
       t.aiming = true
@@ -63,14 +69,20 @@ function turn.keypressed(key)
     end
   elseif key == "f" then
     --image, locationX, locationY, length, width, speed, angle, damage, owner, duration
-    projectile.new(image.bazooka_missile, char.x + math.cos(t.aimAngle)*20, char.y + math.sin(t.aimAngle)*20, 10, 30, 400, t.aimAngle, 50, t.currentPlayer, 30)
+    pr = projectile.new(image.bazooka_missile, char.x + math.cos(t.aimAngle)*20, char.y + math.sin(t.aimAngle)*20, 10, 30, 400, t.aimAngle, 50, t.currentPlayer, 30)
+    t.ending = true
+    camera.trackEntity(pr)
   end
 end
 
 function turn.update(dt)
   t.turnTimer = t.turnTimer - dt
   if t.turnTimer <= 0 then
-    t.endTurn()
+    if t.ending then
+      t.nextTurn()
+    else
+      t.endTurn()
+    end
   end
   
   if t.currentCharacter then

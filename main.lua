@@ -13,6 +13,7 @@ require "projectile"
 require "ui"
 require "Object"
 require "Mine"
+require "Barrel"
 
 player1 = Player.new("chicken",1)
 player2 = Player.new("zombie",2)
@@ -78,7 +79,12 @@ function love.load()
       end
     end
     if place then
-      Mine.new(x,y)
+      thing = math.random(1,2)
+      if thing == 1 then
+        Mine.new(x,y)
+      elseif thing == 2 then
+        Barrel.new(x,y)
+      end
     end
   end
   turn.nextTurn()

@@ -15,3 +15,21 @@ CHARACTER_AIM_STRENGTH_UP = {keyboard={"w"}, gamepad={}}
 CHARACTER_AIM_STRENGTH_DOWN = {keyboard={"s"}, gamepad={}}
 END_TURN = {keyboard={"k"}, gamepad={"y"}}
 ACTION_PLACE_MINE = {keyboard={"m"}, gamepad={}}
+
+-- Returns whether the keyboard or the current player's gamepad has a specific input
+function hasInput(inputs)
+  if not turn.playerinput then return end
+  inputs = inputs or {}
+  inputs["keyboard"] = inputs["keyboard"] or {}
+  inputs["gamepad"] = inputs["gamepad"] or {}
+  for _,kbInput in pairs(inputs["keyboard"]) do
+    if type(kbInput) == "string" and love.keyboard.isDown(kbInput) then return true end
+  end
+  local stick = turn.currentPlayer.joystick
+  if stick then
+    for _, gpInput in pairs(inputs["gamepad"]) do
+      if type(gpInput) == "string" and stick:isGamepadDown(gpInput) then return true end
+    end
+  end
+  return false
+end

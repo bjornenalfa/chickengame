@@ -76,7 +76,7 @@ function turn.fire()
 end
 
 function turn.gamepadaxis(joystick, axis)
-  if not t.playerinput then return end
+  --[[if not t.playerinput then return end
   if not t.currentPlayer.joystick == joystick then return end
   --print(joystick)
   if t.currentCharacter then
@@ -85,7 +85,7 @@ function turn.gamepadaxis(joystick, axis)
     if t.aiming then
       t.aimAngle = math.atan2(y, x)
     end
-  end
+  end]]--
 end
 
 debugFlag = false
@@ -111,6 +111,8 @@ function turn.handleInput(dt)
     if joystick then
       y2 = joystick:getGamepadAxis("triggerright") - joystick:getGamepadAxis("triggerleft")
       t.aimPower = math.min(math.max(100, t.aimPower + y2*400*dt), 800)
+      local x,y = joystick:getAxes()
+      t.aimAngle = math.atan2(y, x)
     end
     -- Now for the aiming mode hasInput() checks.
     if hasInput(CHARACTER_AIM_LEFT) then
@@ -128,8 +130,8 @@ function turn.handleInput(dt)
   else
     -- Not aiming.
     -- First, axes.
-    if love.joystick.getJoystickCount() > 0 then
-      joystick = love.joystick.getJoysticks()[1]
+    local joystick = t.currentPlayer.joystick
+    if joystick then
       x1, y1 = joystick:getAxes()
       if math.abs(x1) > 0.2 then
         t.currentCharacter.mx = t.currentCharacter.mx + x1

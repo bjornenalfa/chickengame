@@ -1,4 +1,6 @@
 require "camera"
+require "font"
+require "floattext"
 require "image"
 require "map"
 require "sound"
@@ -14,6 +16,7 @@ end
 function love.mousepressed(x, y, button)
   Map.circle(x, y, 30)
   explosions.new(x, y, 0.3, 30, true)
+  Character.explosion(x, y, 30, 500, 50)
 end
 
 function love.keypressed(key)
@@ -28,6 +31,7 @@ function love.update(dt)
   camera.update(dt)
   explosions.update(dt)
   Character.update(dt)
+  floattext.update(dt)
 end
 
 function love.draw()
@@ -36,6 +40,7 @@ function love.draw()
   explosions.draw()
   Map.draw()
   Character.draw()
+  floattext.draw()
   
   love.graphics.setColor(0,0,0)
   if Map.isSolid(love.mouse.getPosition()) then

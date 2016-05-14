@@ -64,7 +64,7 @@ end
 
 function turn.fire()
   --image, locationX, locationY, length, width, speed, angle, damage, owner, duration
-  pr = projectile.new(image.bazooka_missile, char.x + math.cos(t.aimAngle)*25, char.y + math.sin(t.aimAngle)*25, 10, 30, t.aimPower, t.aimAngle, 50, t.currentPlayer, 30)
+  pr = projectile.new(image.bazooka_missile, char.x + math.cos(t.aimAngle)*25, char.y + math.sin(t.aimAngle)*25, 10, 30, t.aimPower, t.aimAngle, 50, t.currentPlayer, 200, 50)
   t.playerinput = false
   t.aiming = false
   camera.trackEntity(pr)

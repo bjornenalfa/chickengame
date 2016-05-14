@@ -38,16 +38,16 @@ function camera.listen(l)
 end
 
 -- Returns whether the keyboard or at least one gamepad has one of the specified inputs.
-function hasInput(inputs, gamepads)
-  gamepads = gamepads or {}
+function hasInput(inputs)
   inputs = inputs or {}
   inputs["keyboard"] = inputs["keyboard"] or {}
   inputs["gamepad"] = inputs["gamepad"] or {}
   for _,kbinput in pairs(inputs["keyboard"]) do
     if (type(kbinput)=="string") and love.keyboard.isDown(kbinput) then return true end
   end
-  for _,gpinput in pairs(inputs["gamepad"]) do
-    for _,gamepad in pairs(gamepads) do
+  gamepad = turn.currentPlayer.joystick
+  if gamepad then
+    for _,gpinput in pairs(inputs["gamepad"]) do
       if (type(gpinput)=="string") and gamepad:isGamepadDown(gpinput) then return true end
     end
   end

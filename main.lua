@@ -10,6 +10,7 @@ require "Player"
 require "turn"
 require "Game"
 require "projectile"
+require "ui"
 
 player1 = Player.new("chicken")
 player2 = Player.new("zombie")
@@ -28,6 +29,14 @@ end
 
 function main.onClick(x, y, button)
   Game.explode(x, y, 30, 300, 50)
+end
+
+function love.gamepadpressed(joystick, button)
+  turn.gamepadpressed(joystick, button)
+end
+
+function love.gamepadaxis(joystick, axis)
+  turn.gamepadaxis(joystick, axis)
 end
 
 function love.keypressed(key)
@@ -61,6 +70,9 @@ function love.draw()
   turn.draw()
   floattext.draw()
   explosions.draw()
+  
+  ui.draw()
+  --love.graphics.print(love.joystick.getJoystickCount(),0,50)
   
   --[[love.graphics.setColor(0,0,0)
   if Map.isSolid(love.mouse.getPosition()) then

@@ -44,10 +44,6 @@ function love.keypressed(key)
   if key == "escape" then
     love.event.quit()
   end
-  if key == "k" then
-    turn.endTurn()
-  end
-  turn.keypressed(key)
 end
 
 time = 0

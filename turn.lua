@@ -207,7 +207,50 @@ function turn.update(dt)
   
   if t.ending then return end
   if t.playerinput and t.currentCharacter then
-    turn.handleInput(dt)
+    if t.aiming then
+      if love.joystick.getJoystickCount() > 0 then
+        if love.joystick.getJoystickCount() == 1 then
+          joystick = love.joystick.getJoysticks()[1]
+        elseif love.joystick.getJoystickCount() > 1 then
+          joystick = t.currentPlayer.joystick
+        end
+        y2 = joystick:getGamepadAxis("triggerright") - joystick:getGamepadAxis("triggerleft")
+        t.aimPower = math.min(math.max(100, t.aimPower + y2*400*dt), 800)
+      end
+      if love.keyboard.isDown("a") then
+        t.aimAngle = t.aimAngle - 2*dt
+      end
+      if love.keyboard.isDown("d") then
+        t.aimAngle = t.aimAngle + 2*dt
+      end
+      if love.keyboard.isDown("w") then
+         t.aimPower = math.min(math.max(100, t.aimPower + 400*dt), 800)
+      end
+      if love.keyboard.isDown("s") then
+         t.aimPower = math.min(math.max(100, t.aimPower - 400*dt), 800)
+      end
+    else
+      if love.joystick.getJoystickCount() > 0 then
+        if love.joystick.getJoystickCount() == 1 then
+          joystick = love.joystick.getJoysticks()[1]
+        elseif love.joystick.getJoystickCount() > 1 then
+          joystick = t.currentPlayer.joystick
+        end
+        x1, y1 = joystick:getAxes()
+        if math.abs(x1) > 0.2 then
+          t.currentCharacter.mx = t.currentCharacter.mx + x1
+        end
+      end
+      if love.keyboard.isDown("a") then
+        t.currentCharacter:move(-1)
+      end
+      if love.keyboard.isDown("d") then
+        t.currentCharacter:move(1)
+      end
+      if love.keyboard.isDown("w") then
+        t.currentCharacter:jump()
+      end
+    end
   end
 end
 

@@ -18,7 +18,7 @@ function Mine:die()
 end
 
 function Mine:explode()
-  self.dead = true
+  --self.dead = true
 end
 
 function Mine:update(dt)

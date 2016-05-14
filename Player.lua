@@ -13,7 +13,7 @@ function Player.new(name,joystick)
   end
   new = {
     name=name,
-    joystick=joystick
+    joystick=joystick,
     color = {255,255,255}
   }
   setmetatable(new, Player)

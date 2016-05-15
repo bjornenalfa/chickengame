@@ -91,18 +91,24 @@ function turn.handleInput(dt)
   end
   
   -- Weapon switching
-  if hasInput(NEXT_WEAPON) then
-    local index = t.currentPlayer.weaponIndex
-    index = index + 1
-    if index > #t.currentPlayer.allowedWeapons then index = 1 end
-    t.currentPlayer.weaponIndex = index
-  elseif hasInput(PREV_WEAPON) then
-    local index = t.currentPlayer.weaponIndex
-    index = index - 1
-    if index <= 0 then index = #t.currentPlayer.allowedWeapons end
-    t.currentPlayer.weaponIndex = index
+  t.weaponSwitchCooldownDuration = 0.2
+  if (t.weaponSwitchCooldownRemaining or 0) <= 0 then
+    if hasInput(NEXT_WEAPON) then
+      local index = t.currentPlayer.weaponIndex
+      index = index + 1
+      if index > #t.currentPlayer.allowedWeapons then index = 1 end
+      t.currentPlayer.weaponIndex = index
+      t.weaponSwitchCooldownRemaining = t.weaponSwitchCooldownDuration
+    elseif hasInput(PREV_WEAPON) then
+      local index = t.currentPlayer.weaponIndex
+      index = index - 1
+      if index <= 0 then index = #t.currentPlayer.allowedWeapons end
+      t.currentPlayer.weaponIndex = index
+      t.weaponSwitchCooldownRemaining = t.weaponSwitchCooldownDuration
+    end
+  else
+    t.weaponSwitchCooldownRemaining = t.weaponSwitchCooldownRemaining - dt
   end
-  
   -- If we're aiming, check for aiming-related input
   if t.aiming then
     -- hasInput() doesn't handle multiple axes at once, so stick aiming is done here.

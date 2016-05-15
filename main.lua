@@ -81,7 +81,7 @@ function love.load()
     if place then
       thing = math.random(1,2)
       if thing == 1 then
-        Mine.new(x,y)
+        Mine.new(x,y,true)
       elseif thing == 2 then
         Barrel.new(x,y)
       end
@@ -103,6 +103,7 @@ end
 
 time = 0
 function love.update(dt)
+  dt = math.min(0.04, dt)
   time = time + dt
   camera.update(dt)
   projectile.update(dt)
@@ -124,6 +125,7 @@ function love.draw()
   turn.draw()
   floattext.draw()
   explosions.draw()
+  camera.drawOOB()
   
   ui.draw()
   --love.graphics.print(love.joystick.getJoystickCount(),0,50)

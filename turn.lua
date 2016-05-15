@@ -176,10 +176,10 @@ end
 function turn.update(dt)
   if t.ending then
     static = true
-    for i,char in pairs(Object.list) do
-      if math.abs(char.vx) > 1 or math.abs(char.vy) > 1 then
+    for i,obj in pairs(Object.list) do
+      if math.abs(obj.vx) > 1 or math.abs(obj.vy) > 1 or obj.active then
         static = false
-        camera.trackEntity(char)
+        camera.trackEntity(obj)
       end
     end
     for i,char in pairs(Character.list) do
@@ -221,7 +221,8 @@ function turn.draw()
       pangle = 0.15
       love.graphics.setColor(HSV((800-t.aimPower)/8,255,255))
       love.graphics.polygon("fill", char.x + math.cos(t.aimAngle-pangle)*20, char.y + math.sin(t.aimAngle-pangle)*20, char.x + math.cos(t.aimAngle-pangle)*(30+5*(t.aimPower/100)), char.y + math.sin(t.aimAngle-pangle)*(30+5*(t.aimPower/100)), char.x + math.cos(t.aimAngle+pangle)*(30+5*(t.aimPower/100)), char.y + math.sin(t.aimAngle+pangle)*(30+5*(t.aimPower/100)), char.x + math.cos(t.aimAngle+pangle)*20, char.y + math.sin(t.aimAngle+pangle)*20)
-      love.graphics.draw(image.uzi, char.x, char.y, t.aimAngle, 1, 1, image.uzi:getWidth()/2, image.uzi:getHeight()/2)
+      love.graphics.setColor(255,255,255)
+      love.graphics.draw(image.bazooka, char.x, char.y, t.aimAngle, 1, 1, image.bazooka:getWidth()/2, image.bazooka:getHeight()/2)
     end
   end
 end

@@ -79,7 +79,7 @@ end]]
 
 function Map.drawBackground()
   love.graphics.setColor(255,255,255)
-  love.graphics.draw(m.currentBackground,0,0,0,1,1, -(camera.posX - (m.currentBackground:getWidth() - love.graphics.getWidth()) * (camera.posX/Map.width)), -(camera.posY - (m.currentBackground:getHeight() - love.graphics.getHeight()) * (camera.posY/Map.height)))
+  love.graphics.draw(m.currentBackground,0,0,0,1,1, -(camera.dispX - (m.currentBackground:getWidth() - love.graphics.getWidth()) * (camera.dispX/Map.width)), -(camera.dispY - (m.currentBackground:getHeight() - love.graphics.getHeight()) * (camera.dispY/Map.height)))
 end
 
 function Map.draw()

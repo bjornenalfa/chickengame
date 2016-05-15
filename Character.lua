@@ -115,7 +115,7 @@ function Character:damage(damage)
       turn.endTurn()
     end
     self.hp = self.hp - damage
-    floattext.new("-"..damage, self.x, self.y, {255,255,255}, font.base)
+    floattext.new("-"..damage, self.x, self.y, {0,0,0}, font.base)
   end
 end
 
@@ -196,8 +196,10 @@ function Character.update(dt)
   end
   for i = #dead, 1, -1 do
     char = c.list[dead[i]]
-    table.remove(c.list, dead[i])
-    char:die()
+    if char.y > Map.height + 10 or math.abs(char.vx) < 1 and math.abs(char.vy) < 1 then
+      table.remove(c.list, dead[i])
+      char:die()
+    end
   end
 end
 

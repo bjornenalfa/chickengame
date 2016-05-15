@@ -39,6 +39,13 @@ end
 
 function turn.nextTurn()
   t.turnNumber = t.turnNumber + 1
+  if #t.playerOrder == 0 then
+    print("it is a draw!")
+    Game.gameOver()
+  elseif #t.playerOrder == 1 then
+    print(t.playerOrder[1].name.." won!")
+    Game.gameOver()
+  end
   t.currentPlayerIndex = (t.currentPlayerIndex % #t.playerOrder) + 1
   t.currentPlayer = t.playerOrder[t.currentPlayerIndex]
   oldest = nil
@@ -53,11 +60,12 @@ function turn.nextTurn()
   end
   if oldest == nil then
     if #Character.list == 0 then
-      print("oh it is game over, well not anymore!")
-      Character.new(600, 50, 20, player1, image.hen, image.hen_leg)
-      --return Game.endGame()
+      print("no characters left")
+      --Character.new(600, 50, 20, player1, image.hen, image.hen_leg)
+      return Game.endGame()
     end
-    print("next player has no characters left?")
+    print("next player has no characters left")
+    table.remove(t.playerOrder, t.currentPlayerIndex)
     return turn.nextTurn()
   end
   oldest.lastTurn = t.turnNumber

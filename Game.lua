@@ -9,7 +9,7 @@ function Game.explode(x, y, r, power, damage)
   Object.explosion(x, y, r, power)
 end
 
-function Game.endGame()
+function Game.gameOver()
   return error("Game over!")
 end
 

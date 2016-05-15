@@ -37,6 +37,9 @@ s.addStaticSound("missile_shoot", ".wav")
 s.addStaticSound("laser_shoot", ".wav")
 s.addStaticSound("planet_explode", ".wav")
 
+s.addStaticSound("mine_activate", ".wav")
+s.addStaticSound("mine_alarm", ".wav")
+
 for i = 1,3 do
   s.addStaticSound("explosion"..i, ".wav")
 end

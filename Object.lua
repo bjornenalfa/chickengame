@@ -16,6 +16,7 @@ function Object.new(x, y, r, image, owner)
         image=image,
         owner=owner,
         dead = false,
+        active = false
   }
   setmetatable(new, Object)
   table.insert(o.list, new)
@@ -132,7 +133,7 @@ end
 function Object:draw()
   love.graphics.setColor(255,255,255)
   love.graphics.draw(self.image, self.x, self.y, 0, 1, 1, self.image:getWidth()/2, self.image:getHeight()/2)
-  love.graphics.setColor(255,0,0,100)
+  --love.graphics.setColor(255,0,0,100)
   --love.graphics.circle("fill",self.x, self.y, self.r)
 end
 

@@ -6,6 +6,8 @@ i.width = love.graphics.getWidth()
 i.height = love.graphics.getHeight()
 i.posX = 0
 i.posY = 0
+i.dispX = 0
+i.dispY = 0
 i.scale = 1
 i.mapScale = 1
 
@@ -98,8 +100,22 @@ function camera.trackEntity(target)
 end
 
 function camera.draw()
-  local xCenter = i.posX * i.scale 
-  local yCenter = i.posY * i.scale 
+  i.dispX = i.dispX + (i.posX - i.dispX) * 0.1
+  i.dispY = i.dispY + (i.posY - i.dispY) * 0.1
+  local xCenter = i.dispX * i.scale 
+  local yCenter = i.dispY * i.scale 
   love.graphics.translate(-xCenter, -yCenter)
   love.graphics.scale(i.scale)
+end
+
+function camera.drawOOB()
+  if i.currentlyFollowing and i.activeEntity then
+    local x = math.min(math.max(0,i.activeEntity.x),Map.width)
+    local y = math.min(math.max(0,i.activeEntity.y),Map.height)
+    if i.activeEntity.x ~= x or i.activeEntity.y ~= y then
+      love.graphics.setColor(255,255,255)
+      love.graphics.draw(image.arrow, x, y, math.atan2(i.activeEntity.y-y, i.activeEntity.x-x), 2, 2, image.arrow:getWidth()/2, image.arrow:getHeight()/2)
+      --love.graphics.circle("fill", x, y, 10)
+    end
+  end
 end

@@ -2,7 +2,7 @@ CAMERA_MOVE_DOWN = {keyboard={"down"}, gamepad={}, axisIf={{"righty", function(i
 CAMERA_MOVE_UP = {keyboard={"up"}, gamepad={}, axisIf={{"righty", function(i) return i < -0.2 end}}}
 CAMERA_MOVE_LEFT = {keyboard={"left"}, gamepad={}, axisIf={{"rightx", function(i) return i < -0.2 end}}}
 CAMERA_MOVE_RIGHT = {keyboard={"right"}, gamepad={}, axisIf={{"rightx", function(i) return i > 0.2 end}}}
-CAMERA_RESET = {keyboard={"h"}, gamepad={"rightstick"}, axisIf={}}
+CAMERA_RESET = {keyboard={"r"}, gamepad={"rightstick"}, axisIf={}}
 CHARACTER_START_AIM = {keyboard={"space"}, gamepad={"x"}, axisIf={}}
 CHARACTER_FIRE = {keyboard={"f"}, gamepad={"x"}, axisIf={}}
 CHARACTER_JUMP = {keyboard={"w"}, gamepad={"a"}, axisIf={}}

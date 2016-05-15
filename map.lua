@@ -68,6 +68,31 @@ function Map.circle(x, y, r)
   updateData()
 end
 
+function Map.line(x, y, x2, y2, width)
+  love.graphics.origin()
+  love.graphics.setLineWidth(width)
+  
+  love.graphics.setCanvas(m.canvas)
+  love.graphics.setColor(0,0,0)
+  love.graphics.line(x, y, x2, y2)
+  
+  --[[love.graphics.setCanvas(m.canvas2)
+  love.graphics.setColor(0,0,0)
+  love.graphics.circle("fill",x,y,math.max(0,r-2))
+  
+  love.graphics.setCanvas(m.canvas3)
+  love.graphics.setColor(0,0,0,0)
+  love.graphics.circle("fill",x,y,math.max(0,r-8))
+  
+  love.graphics.setCanvas(m.canvas4)
+  love.graphics.setColor(0,0,0,0)
+  love.graphics.circle("fill",x,y,math.max(0,r-40))]]
+  
+  love.graphics.setLineWidth()
+  love.graphics.setCanvas()
+  updateData()
+end
+
 function Map.isSolid(x, y)
   local r,g,b,a = m.canvasData:getPixel(math.min(math.max(0,math.floor(x)),m.width-1), math.min(math.max(0,math.floor(y)),m.height-1))
   return a == 255

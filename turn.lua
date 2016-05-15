@@ -179,6 +179,12 @@ function turn.update(dt)
       return
     end
   elseif t.afterWeaponMove then
+    moving, thing = Game.stuffMoving()
+    if moving and thing ~= t.currentCharacter and not thing.active then
+      camera.trackEntity(thing)
+      return
+    end
+    camera.trackEntity(t.currentCharacter)
     t.turnTimer = t.turnTimer - dt
     if t.turnTimer < 0 then
       t.endTurn()
@@ -211,6 +217,11 @@ function turn.draw()
     love.graphics.setColor(255,255,255)
     love.graphics.rectangle("line",char.x-char.r, char.y-char.r, char.r*2, char.r*2)
     if t.aiming then
+      if math.cos(t.aimAngle) < 0 then
+        t.currentCharacter.direction = "left"
+      else
+        t.currentCharacter.direction = "right"
+      end
       love.graphics.setColor(0,255,0)
       love.graphics.line(char.x + math.cos(t.aimAngle)*20, char.y + math.sin(t.aimAngle)*20, char.x + math.cos(t.aimAngle)*60, char.y + math.sin(t.aimAngle)*60)
       

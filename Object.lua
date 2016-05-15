@@ -16,7 +16,8 @@ function Object.new(x, y, r, image, owner)
         image=image,
         owner=owner,
         dead = false,
-        active = false
+        active = false,
+        bouncy = false
   }
   setmetatable(new, Object)
   table.insert(o.list, new)
@@ -46,6 +47,9 @@ function Object:slide(dx)
         self.vx = self.vx - dx * dy*3
         self.vy = self.vy - dy * 8
         return
+      end
+      if self.bouncy then
+        self.vx = -self.vx
       end
     end
     self.vx = 0
@@ -90,7 +94,11 @@ function Object.updateAll(dt)
   for i,obj in pairs(o.list) do
     obj:update(dt)
     if obj.vy < 0 and obj:solid("above") then
-      obj.vy = 1
+      if obj.bouncy then
+        obj.vy = -obj.vy
+      else
+        obj.vy = 1
+      end
       while obj:solid("above") do
           obj.y = obj.y + 1
       end

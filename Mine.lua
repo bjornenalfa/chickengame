@@ -32,7 +32,7 @@ function Mine:update(dt)
       for i,char in pairs(Character.list) do
         if (char.x-self.x)*(char.x-self.x) + (char.y-self.y)*(char.y-self.y) <= self.range*self.range then
           self.triggered = true
-          self.activated = true
+          self.active = true
           sound.play("mine_alarm")
           self.timer = 3
         end

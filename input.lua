@@ -14,7 +14,8 @@ CHARACTER_AIM_RIGHT = {keyboard={"d"}, gamepad={}, axisIf={}}
 CHARACTER_AIM_STRENGTH_UP = {keyboard={"w"}, gamepad={}, axisIf={{"triggerright", function(i) return i > 0 end}}}
 CHARACTER_AIM_STRENGTH_DOWN = {keyboard={"s"}, gamepad={}, axisIf={{"triggerleft", function(i) return i > 0 end}}}
 END_TURN = {keyboard={"k"}, gamepad={"y"}}
-ACTION_PLACE_MINE = {keyboard={"m"}, gamepad={}, axisIf={}}
+NEXT_WEAPON = {keyboard={"l"}}
+PREV_WEAPON = {keyboard={"h"}}
 
 -- Returns whether the keyboard or the current player's gamepad has a specific input
 function hasInput(inputs, player)

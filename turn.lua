@@ -67,12 +67,22 @@ function turn.nextTurn()
   t.wind = math.random(-150,150)
 end
 
+
+weapons = {
+  missile=function()
+    pr = projectile.new(image.bazooka_missile, char.x + math.cos(t.aimAngle)*25, char.y +       math.sin(t.aimAngle)*25, 10, 30, t.aimPower, t.aimAngle, 50, t.currentPlayer, 200, 50)
+    t.playerinput = false
+    t.aiming = false
+    camera.trackEntity(pr)
+  end,
+  mine=function()
+    Mine.new(t.currentCharacter.x, t.currentCharacter.y)
+  end,
+}
+currentWeapon = "missile"
+
 function turn.fire()
-  --image, locationX, locationY, length, width, speed, angle, damage, owner, duration, radius
-  pr = projectile.new(image.bazooka_missile, char.x + math.cos(t.aimAngle)*25, char.y + math.sin(t.aimAngle)*25, 10, 30, t.aimPower, t.aimAngle, 50, t.currentPlayer, 200, 50)
-  t.playerinput = false
-  t.aiming = false
-  camera.trackEntity(pr)
+  weapons[currentWeapon]()
 end
 
 debugFlag = false
@@ -82,6 +92,28 @@ function turn.handleInput(dt)
   if hasInput(END_TURN) then
     t.endTurn()
     return
+  end
+  
+  -- Weapon switching
+  if hasInput(NEXT_WEAPON) then
+    local pickNext = false
+    for name,_ in pairs(weapons) do
+      if pickNext then
+        currentWeapon = name
+        break
+      elseif name == currentWeapon then
+        pickNext = true
+      end
+    end
+  elseif hasInput(PREV_WEAPON) then
+    local priorWeapon = currentWeapon
+    for name,_ in pairs(weapons) do
+      if name == priorWeapon then
+        break
+      else
+        currentWeapon = name
+      end
+    end
   end
   
   -- If we're aiming, check for aiming-related input
@@ -119,9 +151,6 @@ function turn.handleInput(dt)
     if hasInput(CHARACTER_JUMP) then
       t.currentCharacter:jump()
     end
-    if hasInput(ACTION_PLACE_MINE) then
-      Mine.new(t.currentCharacter.x, t.currentCharacter.y)
-    end
   end
   
   if t.aimToggleCoolDownRemaining <= 0 then
@@ -135,6 +164,8 @@ function turn.handleInput(dt)
         t.aimToggleCoolDownRemaining = t.aimToggleCoolDownLength
       elseif hasInput(CHARACTER_FIRE) then
         turn.fire()
+        t.aimToggleCoolDownRemaining = t.aimToggleCoolDownLength
+        print("fire in the hole")
       end
     end
   else
@@ -211,4 +242,7 @@ function turn.uidraw()
   love.graphics.setColor(0,0,0)
   love.graphics.rectangle("fill",35,bottomy-23,1,16)
   love.graphics.print("wind",7,bottomy-21)
+  
+  -- debug
+  love.graphics.print(currentWeapon, 0, 50)
 end

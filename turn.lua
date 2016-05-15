@@ -19,6 +19,7 @@ t.timerActive = false
 
 t.ending = false
 t.playerinput = false
+t.weaponWait = false
 
 t.wind = 0
 
@@ -65,24 +66,14 @@ function turn.nextTurn()
   t.ending = false
   t.playerinput = true
   t.wind = math.random(-150,150)
+  t.weaponWait = false
 end
 
-
-weapons = {
-  missile=function()
-    pr = projectile.new(image.bazooka_missile, char.x + math.cos(t.aimAngle)*25, char.y +       math.sin(t.aimAngle)*25, 10, 30, t.aimPower, t.aimAngle, 50, t.currentPlayer, 200, 50)
-    t.playerinput = false
-    t.aiming = false
-    camera.trackEntity(pr)
-  end,
-  mine=function()
-    Mine.new(t.currentCharacter.x, t.currentCharacter.y)
-  end,
-}
-currentWeapon = "missile"
-
 function turn.fire()
-  weapons[currentWeapon]()
+  Weapon.activate(t.currentPlayer.weapon, t.currentCharacter.x, t.currentCharacter.y, t.aimPower, t.aimAngle, t.currentPlayer)
+  t.playerinput = false
+  t.aiming = false
+  t.weaponWait = true
 end
 
 debugFlag = false
@@ -174,6 +165,11 @@ function turn.handleInput(dt)
 end
 
 function turn.update(dt)
+  if t.weaponWait then
+    if Weapon.done(dt) then
+      t.endTurn()
+    end
+  end
   if t.ending then
     static = true
     for i,obj in pairs(Object.list) do
@@ -221,8 +217,9 @@ function turn.draw()
       pangle = 0.15
       love.graphics.setColor(HSV((800-t.aimPower)/8,255,255))
       love.graphics.polygon("fill", char.x + math.cos(t.aimAngle-pangle)*20, char.y + math.sin(t.aimAngle-pangle)*20, char.x + math.cos(t.aimAngle-pangle)*(30+5*(t.aimPower/100)), char.y + math.sin(t.aimAngle-pangle)*(30+5*(t.aimPower/100)), char.x + math.cos(t.aimAngle+pangle)*(30+5*(t.aimPower/100)), char.y + math.sin(t.aimAngle+pangle)*(30+5*(t.aimPower/100)), char.x + math.cos(t.aimAngle+pangle)*20, char.y + math.sin(t.aimAngle+pangle)*20)
-      love.graphics.setColor(255,255,255)
-      love.graphics.draw(image.bazooka, char.x, char.y, t.aimAngle, 1, 1, image.bazooka:getWidth()/2, image.bazooka:getHeight()/2)
+      Weapon.draw(t.currentPlayer.weapon, char.x, char.y, t.aimAngle)
+      --love.graphics.setColor(255,255,255)
+      --love.graphics.draw(image.bazooka, char.x, char.y, t.aimAngle, 1, 1, image.bazooka:getWidth()/2, image.bazooka:getHeight()/2)
     end
   end
 end
@@ -245,5 +242,5 @@ function turn.uidraw()
   love.graphics.print("wind",7,bottomy-21)
   
   -- debug
-  love.graphics.print(currentWeapon, 0, 50)
+  --love.graphics.print(currentWeapon, 0, 50)
 end

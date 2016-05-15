@@ -15,7 +15,7 @@ function Player.new(name,joystick)
     name=name,
     joystick=joystick,
     color = {255,255,255},
-    weapon = "mine"
+    weapon = "grenade"
   }
   setmetatable(new, Player)
   p.list[name] = new

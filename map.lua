@@ -13,6 +13,7 @@ m.height = 0
 
 local counter = 0
 local function updateData() -- this must be called after any modification to the map
+  m.canvasChanged = false
   counter = counter + 1
   m.canvasData = m.canvas:newImageData()
   if counter > 20 then

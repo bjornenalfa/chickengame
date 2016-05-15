@@ -13,6 +13,7 @@ require "projectile"
 require "ui"
 require "Object"
 require "Mine"
+require "Grenade"
 require "Barrel"
 require "Weapon"
 

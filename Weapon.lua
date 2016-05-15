@@ -14,8 +14,10 @@ w.missile = {image = image.bazooka}
 w.mine = {image = image.egg}
 
 w.tracking = nil
+w.lastWeapon = nil
 
 function Weapon.activate(weapon, x, y, power, angle, owner)
+  w.lastWeapon = weapon
   if weapon == "missile" then
     pr = projectile.new(image.bazooka_missile, x + math.cos(angle)*25, char.y + math.sin(angle)*25, 10, 30, power, angle, 50, owner, 200, 50)
     camera.trackEntity(pr)
@@ -26,6 +28,7 @@ function Weapon.activate(weapon, x, y, power, angle, owner)
 end
 
 function Weapon.done(dt)
+  local weapon = w.lastWeapon
   if weapon == "missile" then
     return w.tracking.remove
   elseif weapon == "mine" then

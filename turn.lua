@@ -20,6 +20,7 @@ t.timerActive = false
 t.ending = false
 t.playerinput = false
 t.weaponWait = false
+t.afterWeaponMove = false
 
 t.wind = 0
 
@@ -30,6 +31,9 @@ end
 function turn.endTurn()
   t.turnTimer = 2
   t.ending = true
+  t.weaponWait = false
+  t.afterWeaponMove = false
+  t.playerinput = false
   --turn.nextTurn()
 end
 
@@ -67,6 +71,7 @@ function turn.nextTurn()
   t.playerinput = true
   t.wind = math.random(-150,150)
   t.weaponWait = false
+  t.aimToggleCoolDownRemaining = 0
 end
 
 function turn.fire()
@@ -120,10 +125,10 @@ function turn.handleInput(dt)
     end
     -- Now for the aiming mode hasInput() checks.
     if hasInput(CHARACTER_AIM_LEFT) then
-      t.aimAngle = t.aimAngle - 2*dt
+      t.aimAngle = t.aimAngle - 1*dt
     end
     if hasInput(CHARACTER_AIM_RIGHT) then
-      t.aimAngle = t.aimAngle + 2*dt
+      t.aimAngle = t.aimAngle + 1*dt
     end
     if hasInput(CHARACTER_AIM_STRENGTH_UP) then
        t.aimPower = math.min(math.max(100, t.aimPower + 400*dt), 800)
@@ -167,10 +172,24 @@ end
 function turn.update(dt)
   if t.weaponWait then
     if Weapon.done(dt) then
-      t.endTurn()
+      t.weaponWait = false
+      t.afterWeaponMove = true
+      t.playerinput = true
+      t.turnTimer = 5
+      t.aimToggleCoolDownRemaining = 5
+      camera.trackEntity(t.currentCharacter)
+    else
+      return
     end
-  end
-  if t.ending then
+  elseif t.afterWeaponMove then
+    t.turnTimer = t.turnTimer - dt
+    if t.turnTimer < 0 then
+      t.endTurn()
+    else
+      t.handleInput(dt)
+    end
+    return
+  elseif t.ending then
     static = true
     for i,obj in pairs(Object.list) do
       if math.abs(obj.vx) > 1 or math.abs(obj.vy) > 1 or obj.active then
@@ -197,10 +216,7 @@ function turn.update(dt)
     else
       t.endTurn()
     end
-  end
-  
-  if t.ending then return end
-  if t.playerinput and t.currentCharacter then
+  elseif t.playerinput and t.currentCharacter then
     t.handleInput(dt)
   end
 end

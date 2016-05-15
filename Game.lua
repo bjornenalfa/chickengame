@@ -10,6 +10,7 @@ function Game.explode(x, y, r, power, damage)
 end
 
 function Game.gameOver()
+  Level.reset()
   return error("Game over!")
 end
 

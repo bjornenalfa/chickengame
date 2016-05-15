@@ -4,7 +4,7 @@ p.__index = p
 
 p.list = {}
 
-function Player.new(name,joystick)
+function Player.new(name,joystick,weapons)
   if love.joystick.getJoystickCount() > 0 then
     joysticks = love.joystick.getJoysticks()
     joystick = joysticks[math.min(#joysticks,joystick)]
@@ -16,7 +16,7 @@ function Player.new(name,joystick)
     joystick=joystick,
     color = {255,255,255},
     weaponIndex = 1,
-    allowedWeapons = {"missile", "mine", "grenade", "wall"}
+    allowedWeapons = weapons
   }
   setmetatable(new, Player)
   p.list[name] = new

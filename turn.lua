@@ -63,6 +63,7 @@ function turn.nextTurn()
   oldest.lastTurn = t.turnNumber
   t.currentCharacter = oldest
   camera.trackEntity(oldest)
+  floattext.new(t.currentPlayer.name.."'s turn!", oldest.x, oldest.y, {0,0,0}, font.h1)
   t.timerActive = true
   t.turnTimer = t.turnTime
   t.aiming = false
@@ -228,7 +229,7 @@ function turn.draw()
       pangle = 0.15
       love.graphics.setColor(HSV((800-t.aimPower)/8,255,255))
       love.graphics.polygon("fill", char.x + math.cos(t.aimAngle-pangle)*20, char.y + math.sin(t.aimAngle-pangle)*20, char.x + math.cos(t.aimAngle-pangle)*(30+5*(t.aimPower/100)), char.y + math.sin(t.aimAngle-pangle)*(30+5*(t.aimPower/100)), char.x + math.cos(t.aimAngle+pangle)*(30+5*(t.aimPower/100)), char.y + math.sin(t.aimAngle+pangle)*(30+5*(t.aimPower/100)), char.x + math.cos(t.aimAngle+pangle)*20, char.y + math.sin(t.aimAngle+pangle)*20)
-      Weapon.draw(t.currentPlayer.allowedWeapons[t.currentPlayer.weaponIndex], char.x, char.y, t.aimAngle)
+      Weapon.draw(t.currentPlayer.allowedWeapons[t.currentPlayer.weaponIndex], char.x, char.y, t.aimAngle, t.aimPower)
       --love.graphics.setColor(255,255,255)
       --love.graphics.draw(image.bazooka, char.x, char.y, t.aimAngle, 1, 1, image.bazooka:getWidth()/2, image.bazooka:getHeight()/2)
     end

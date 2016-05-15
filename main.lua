@@ -17,8 +17,8 @@ require "Grenade"
 require "Barrel"
 require "Weapon"
 
-player1 = Player.new("chicken",1)
-player2 = Player.new("zombie",2)
+player1 = Player.new("chicken",1,{"missile", "mine", "grenade", "wall"})
+player2 = Player.new("zombie",2,{"missile", "grenade", "wall", "punch"})
 turn.setPlayerOrder(player1, player2)
 
 main = {}

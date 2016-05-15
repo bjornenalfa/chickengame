@@ -70,6 +70,7 @@ end
 
 function Map.line(x, y, x2, y2, width)
   love.graphics.origin()
+  local oldwidth = love.graphics.getLineWidth()
   love.graphics.setLineWidth(width)
   
   love.graphics.setCanvas(m.canvas)
@@ -88,7 +89,7 @@ function Map.line(x, y, x2, y2, width)
   love.graphics.setColor(0,0,0,0)
   love.graphics.circle("fill",x,y,math.max(0,r-40))]]
   
-  love.graphics.setLineWidth()
+  love.graphics.setLineWidth(oldwidth)
   love.graphics.setCanvas()
   updateData()
 end

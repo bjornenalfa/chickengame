@@ -27,16 +27,16 @@ function hasInput(inputs, player)
     inputs["gamepad"] = inputs["gamepad"] or {}
     inputs["axisIf"] = inputs["axisIf"] or {}
     for _, gpInput in pairs(inputs["gamepad"]) do
-      if type(gpInput) == "string" and stick:isGamepadDown(gpInput) then return true end
+      if type(gpInput) == "string" and stick:isGamepadDown(gpInput) then return true, 1 end
     end
     for _, axInput in pairs(inputs["axisIf"]) do
       local val = stick:getGamepadAxis(axInput[1])
-      if axInput[2](val) then return true end
+      if axInput[2](val) then return true, val end
     end
   else
     inputs["keyboard"] = inputs["keyboard"] or {}
     for _,kbInput in pairs(inputs["keyboard"]) do
-      if type(kbInput) == "string" and love.keyboard.isDown(kbInput) then return true end
+      if type(kbInput) == "string" and love.keyboard.isDown(kbInput) then return true, 1 end
     end
   end
   return false

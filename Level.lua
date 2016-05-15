@@ -14,20 +14,20 @@ end
 function Level.load(number)
   mapname = "map0"..number
   Map.loadMap(mapname)
-  if number == 4 then
-    for i = 1, 5 do
-      l.placeChicken()
-    end
-    for i = 1, 5 do
-      l.placeZombie()
-    end
-    for i = 1, 10 do
-      l.placeMine()
-    end
-    for i = 1, 10 do
-      l.placeBarrel()
-    end
+  --if number == 4 then
+  for i = 1, 5 do
+    l.placeChicken()
   end
+  for i = 1, 5 do
+    l.placeZombie()
+  end
+  for i = 1, 10 do
+    l.placeMine()
+  end
+  for i = 1, 10 do
+    l.placeBarrel()
+  end
+  --end
   
   turn.setPlayerOrder(player1, player2)
   turn.nextTurn()

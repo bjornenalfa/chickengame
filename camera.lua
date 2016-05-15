@@ -21,10 +21,10 @@ i.cameraSpeed = 2000
 i.mouseListeners = {}
 
 function love.mousepressed(x, y, button)
-  print(x, y)
+  --print(x, y)
   local logicalX = (x + i.posX)/i.mapScale
   local logicalY = (y + i.posY)/i.mapScale
-  print(logicalX, logicalY)
+  --print(logicalX, logicalY)
   for _, ml in pairs(camera.mouseListeners) do
     ml.onClick(logicalX, logicalY, button)
   end

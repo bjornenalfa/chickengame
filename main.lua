@@ -27,7 +27,7 @@ main = {}
 function love.load()
   math.randomseed(os.time())
   camera.listen(main)
-  Level.load(4)
+  Level.load(math.random(1,4))
   --Map.loadMap("map04")
   --Character.new(600, 50, 20, player1, image.hen, image.hen_leg)
   --Character.new(500, 50, 25, player2, image.zombie, image.zombie_leg)

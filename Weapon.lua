@@ -90,7 +90,6 @@ function Weapon.done(dt)
 end
 
 function Weapon.draw(weapon, x, y, angle, power)
-  print(weapon)
   local img = w[weapon].image or w.missile.image
   love.graphics.setColor(255,255,255)
   if weapon == "punch" then

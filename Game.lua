@@ -27,3 +27,29 @@ function HSV(h, s, v)
     else              r,g,b = c,0,x
     end return (r+m)*255,(g+m)*255,(b+m)*255
 end
+
+function Game.stuffMoving()
+  static = true
+  thing = nil
+  if #explosions.explosions > 0 then
+    static = false
+    thing = explosions.explosions[1]
+  end
+  for i,obj in pairs(Object.list) do
+    if math.abs(obj.vx) > 1 or math.abs(obj.vy) > 1 or obj.active then
+      static = false
+      thing = obj
+    end
+  end
+  for i,char in pairs(Character.list) do
+    if math.abs(char.vx) > 1 or math.abs(char.vy) > 1 then
+      static = false
+      thing = char
+    end
+  end
+  if #projectile.projectiles > 0 then
+    static = false
+    thing = projectile.projectiles[1]
+  end
+  return not static, thing
+end

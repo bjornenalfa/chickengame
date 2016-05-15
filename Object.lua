@@ -106,6 +106,7 @@ function Object.updateAll(dt)
       end
       obj.vx = obj.vx * 0.95
     else
+      obj.vx = obj.vx + turn.wind * dt
       obj.vy = obj.vy + Game.gravity*dt
       obj.vx = obj.vx * 0.99
     end

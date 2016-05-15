@@ -181,24 +181,11 @@ function turn.update(dt)
     end
     return
   elseif t.ending then
-    static = true
-    for i,obj in pairs(Object.list) do
-      if math.abs(obj.vx) > 1 or math.abs(obj.vy) > 1 or obj.active then
-        static = false
-        camera.trackEntity(obj)
-      end
+    moving, thing = Game.stuffMoving()
+    if moving then
+      camera.trackEntity(thing)
+      return
     end
-    for i,char in pairs(Character.list) do
-      if math.abs(char.vx) > 1 or math.abs(char.vy) > 1 then
-        static = false
-        camera.trackEntity(char)
-      end
-    end
-    if #projectile.projectiles > 0 then
-      static = false
-      camera.trackEntity(projectile.projectiles[1])
-    end
-    if not static then return end
   end
   t.turnTimer = t.turnTimer - dt
   if t.turnTimer <= 0 then

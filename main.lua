@@ -14,6 +14,7 @@ require "ui"
 require "Object"
 require "Mine"
 require "Barrel"
+require "Weapon"
 
 player1 = Player.new("chicken",1)
 player2 = Player.new("zombie",2)

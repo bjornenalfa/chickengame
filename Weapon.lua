@@ -37,6 +37,7 @@ function Weapon.done(dt)
 end
 
 function Weapon.draw(weapon, x, y, angle)
+  print(weapon)
   local img = w[weapon].image or w.missile.image
   love.graphics.setColor(255,255,255)
   love.graphics.draw(img, x, y, angle or 0, 1, 1, img:getWidth()/2, img:getHeight()/2)

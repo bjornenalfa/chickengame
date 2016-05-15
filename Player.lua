@@ -15,9 +15,14 @@ function Player.new(name,joystick)
     name=name,
     joystick=joystick,
     color = {255,255,255},
-    weapon = "mine"
+    weaponIndex = 1,
+    allowedWeapons = {"missile", "mine"}
   }
   setmetatable(new, Player)
   p.list[name] = new
   return new
+end
+
+function Player:getWeapon()
+  return self.allowedWeapons[self.weaponIndex]
 end

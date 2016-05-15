@@ -75,7 +75,7 @@ function turn.nextTurn()
 end
 
 function turn.fire()
-  Weapon.activate(t.currentPlayer.weapon, t.currentCharacter.x, t.currentCharacter.y, t.aimPower, t.aimAngle, t.currentPlayer)
+  Weapon.activate(t.currentPlayer:getWeapon(), t.currentCharacter.x, t.currentCharacter.y, t.aimPower, t.aimAngle, t.currentPlayer)
   t.playerinput = false
   t.aiming = false
   t.weaponWait = true
@@ -92,24 +92,15 @@ function turn.handleInput(dt)
   
   -- Weapon switching
   if hasInput(NEXT_WEAPON) then
-    local pickNext = false
-    for name,_ in pairs(weapons) do
-      if pickNext then
-        currentWeapon = name
-        break
-      elseif name == currentWeapon then
-        pickNext = true
-      end
-    end
+    local index = t.currentPlayer.weaponIndex
+    index = index + 1
+    if index > #t.currentPlayer.allowedWeapons then index = 1 end
+    t.currentPlayer.weaponIndex = index
   elseif hasInput(PREV_WEAPON) then
-    local priorWeapon = currentWeapon
-    for name,_ in pairs(weapons) do
-      if name == priorWeapon then
-        break
-      else
-        currentWeapon = name
-      end
-    end
+    local index = t.currentPlayer.weaponIndex
+    index = index - 1
+    if index <= 0 then index = #t.currentPlayer.allowedWeapons end
+    t.currentPlayer.weaponIndex = index
   end
   
   -- If we're aiming, check for aiming-related input
@@ -233,7 +224,7 @@ function turn.draw()
       pangle = 0.15
       love.graphics.setColor(HSV((800-t.aimPower)/8,255,255))
       love.graphics.polygon("fill", char.x + math.cos(t.aimAngle-pangle)*20, char.y + math.sin(t.aimAngle-pangle)*20, char.x + math.cos(t.aimAngle-pangle)*(30+5*(t.aimPower/100)), char.y + math.sin(t.aimAngle-pangle)*(30+5*(t.aimPower/100)), char.x + math.cos(t.aimAngle+pangle)*(30+5*(t.aimPower/100)), char.y + math.sin(t.aimAngle+pangle)*(30+5*(t.aimPower/100)), char.x + math.cos(t.aimAngle+pangle)*20, char.y + math.sin(t.aimAngle+pangle)*20)
-      Weapon.draw(t.currentPlayer.weapon, char.x, char.y, t.aimAngle)
+      Weapon.draw(t.currentPlayer.allowedWeapons[t.currentPlayer.weaponIndex], char.x, char.y, t.aimAngle)
       --love.graphics.setColor(255,255,255)
       --love.graphics.draw(image.bazooka, char.x, char.y, t.aimAngle, 1, 1, image.bazooka:getWidth()/2, image.bazooka:getHeight()/2)
     end

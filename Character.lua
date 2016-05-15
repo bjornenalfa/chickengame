@@ -104,7 +104,7 @@ end
 
 function Character:jump()
   if self:solid("under") then
-    self.vy = -250
+    self.vy = -200
   end
 end
 

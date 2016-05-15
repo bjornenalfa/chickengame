@@ -24,6 +24,8 @@ t.afterWeaponMove = false
 
 t.wind = 0
 
+t.movementSpeed = 1
+
 function turn.setPlayerOrder(...)
   t.playerOrder = {...}
 end
@@ -62,7 +64,7 @@ function turn.nextTurn()
     if #Character.list == 0 then
       print("no characters left")
       --Character.new(600, 50, 20, player1, image.hen, image.hen_leg)
-      return Game.endGame()
+      return Game.gameOver()
     end
     print("next player has no characters left")
     table.remove(t.playerOrder, t.currentPlayerIndex)
@@ -145,10 +147,13 @@ function turn.handleInput(dt)
   else
     -- Not aiming.
     if hasInput(CHARACTER_MOVE_LEFT) then
-      t.currentCharacter:move(-1)
+      check, val = hasInput(CHARACTER_MOVE_LEFT)
+      t.currentCharacter.mx = t.currentCharacter.mx - math.abs(val) * t.movementSpeed
+      --t.currentCharacter:move(-1)
     end
     if hasInput(CHARACTER_MOVE_RIGHT) then
-      t.currentCharacter:move(1)
+      check, val = hasInput(CHARACTER_MOVE_RIGHT)
+      t.currentCharacter.mx = t.currentCharacter.mx + math.abs(val) * t.movementSpeed
     end
     if hasInput(CHARACTER_JUMP) then
       t.currentCharacter:jump()
@@ -167,7 +172,7 @@ function turn.handleInput(dt)
       elseif hasInput(CHARACTER_FIRE) then
         turn.fire()
         t.aimToggleCoolDownRemaining = t.aimToggleCoolDownLength
-        print("fire in the hole")
+        --print("fire in the hole")
       end
     end
   else

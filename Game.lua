@@ -11,7 +11,8 @@ end
 
 function Game.gameOver()
   Level.reset()
-  return error("Game over!")
+  Level.load(math.random(1,4))
+  --return error("Game over!")
 end
 
 function HSV(h, s, v)

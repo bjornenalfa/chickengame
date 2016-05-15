@@ -14,6 +14,7 @@ function Grenade.new(x, y, power, angle)
 end
 
 function Grenade:die()
+  Game.explode(self.x, self.y, 40, 600, 50)
 end
 
 function Grenade:explode()

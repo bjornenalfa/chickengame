@@ -14,7 +14,7 @@ function Mine.new(x, y, activated)
 end
 
 function Mine:die()
-  Game.explode(self.x, self.y, 80, 400, 50)
+  Game.explode(self.x, self.y, 80, 500, 60)
 end
 
 function Mine:explode()

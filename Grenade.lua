@@ -5,7 +5,7 @@ g.__index = Grenade
 
 function Grenade.new(x, y, power, angle)
   new = Object.new(x, y, 7, image.grenade, 1)
-  new.timer = 8
+  new.timer = 5
   new.vx = math.cos(angle) * power
   new.vy = math.sin(angle) * power
   new.active = true
@@ -14,7 +14,6 @@ function Grenade.new(x, y, power, angle)
 end
 
 function Grenade:die()
-  Game.explode(self.x, self.y, 80, 400, 50)
 end
 
 function Grenade:explode()

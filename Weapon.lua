@@ -12,7 +12,7 @@ w.list = {"missile", "mine", "grenade", "wall", "punch"}
 w.missile = {image = image.bazooka}
 w.mine = {image = image.egg}
 w.grenade = {image = image.grenade_unarmed}
-w.wall = {image = image.wall, angle=0.5}
+w.wall = {image = image.wall, angle=0.7}
 w.punch = {image = image.zombie_fist}
 
 w.tracking = nil

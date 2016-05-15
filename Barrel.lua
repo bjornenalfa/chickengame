@@ -10,7 +10,7 @@ function Barrel.new(x, y)
 end
 
 function Barrel:die()
-  Game.explode(self.x, self.y, 80, 400, 50)
+  Game.explode(self.x, self.y, 75, 500, 40)
 end
 
 function Barrel:explode()

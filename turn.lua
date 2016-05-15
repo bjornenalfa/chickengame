@@ -23,6 +23,7 @@ t.weaponWait = false
 t.afterWeaponMove = false
 
 t.wind = 0
+t.maxwind = 100
 
 t.movementSpeed = 1
 
@@ -42,9 +43,11 @@ end
 function turn.nextTurn()
   t.turnNumber = t.turnNumber + 1
   if #t.playerOrder == 0 then
+    floattext.new("It is a draw?", camera.posX + love.graphics.getWidth()/2, camera.posY + love.graphics.getHeight()/2, {0,0,0}, font.h1)
     print("it is a draw!")
     Game.gameOver()
   elseif #t.playerOrder == 1 then
+    floattext.new(t.playerOrder[1].name.." won!", camera.posX + love.graphics.getWidth()/2, camera.posY + love.graphics.getHeight()/2, {0,0,0}, font.h1)
     print(t.playerOrder[1].name.." won!")
     Game.gameOver()
   end
@@ -80,7 +83,7 @@ function turn.nextTurn()
   t.aimAngle = 0
   t.ending = false
   t.playerinput = true
-  t.wind = math.random(-150,150)
+  t.wind = math.random(-t.maxwind,t.maxwind)
   t.weaponWait = false
   t.aimToggleCoolDownRemaining = 0
 end

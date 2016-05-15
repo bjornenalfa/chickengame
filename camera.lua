@@ -53,24 +53,27 @@ function camera.update(dt)
       i.posX = (i.activeEntity.x - (cw/2 + (i.activeEntity.r or 0)))
       i.posY = (i.activeEntity.y - (ch/2 + (i.activeEntity.r or 0)))
     end
-  elseif hasInput(CAMERA_MOVE_DOWN) then
-    i.currentlyFollowing = false
-    i.posY = i.posY + (i.cameraSpeed * dt)
-  elseif hasInput(CAMERA_MOVE_UP) then
-    i.currentlyFollowing = false
-    i.posY = i.posY - (i.cameraSpeed * dt)
-  elseif hasInput(CAMERA_MOVE_LEFT) then
-    i.currentlyFollowing = false
-    i.posX = i.posX - (i.cameraSpeed * dt)
-  elseif hasInput(CAMERA_MOVE_RIGHT) then
-    i.currentlyFollowing = false
-    i.posX = i.posX + (i.cameraSpeed * dt)
-  else -- No manual camera movement
-    if i.activeEntity and i.activeEntity.x and i.activeEntity.y and i.currentlyFollowing then
-      -- We have a valid entity which we are tracking.
-      -- Breaks on large maps such as 03.
-      i.posX = (i.activeEntity.x - (cw/2 + (i.activeEntity.r or 0)))
-      i.posY = (i.activeEntity.y - (ch/2 + (i.activeEntity.r or 0)))
+  else
+    if hasInput(CAMERA_MOVE_DOWN) then
+      i.currentlyFollowing = false
+      i.posY = i.posY + (i.cameraSpeed * dt)
+    elseif hasInput(CAMERA_MOVE_UP) then
+      i.currentlyFollowing = false
+      i.posY = i.posY - (i.cameraSpeed * dt)
+    end
+    if hasInput(CAMERA_MOVE_LEFT) then
+      i.currentlyFollowing = false
+      i.posX = i.posX - (i.cameraSpeed * dt)
+    elseif hasInput(CAMERA_MOVE_RIGHT) then
+      i.currentlyFollowing = false
+      i.posX = i.posX + (i.cameraSpeed * dt)
+    else -- No manual camera movement
+      if i.activeEntity and i.activeEntity.x and i.activeEntity.y and i.currentlyFollowing then
+        -- We have a valid entity which we are tracking.
+        -- Breaks on large maps such as 03.
+        i.posX = (i.activeEntity.x - (cw/2 + (i.activeEntity.r or 0)))
+        i.posY = (i.activeEntity.y - (ch/2 + (i.activeEntity.r or 0)))
+      end
     end
   end
   

@@ -1,7 +1,7 @@
 Level = {}
 local l = Level
 
-function level.reset()
+function Level.reset()
   Character.list = {}
   Object.list = {}
   projectile.projectiles = {}

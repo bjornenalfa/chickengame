@@ -9,12 +9,13 @@ function Grenade.new(x, y, power, angle)
   new.vx = math.cos(angle) * power
   new.vy = math.sin(angle) * power
   new.active = true
+  new.bouncy = true
   setmetatable(new, Grenade)
   return new
 end
 
 function Grenade:die()
-  Game.explode(self.x, self.y, 40, 600, 50)
+  Game.explode(self.x, self.y, 70, 600, 50)
 end
 
 function Grenade:explode()

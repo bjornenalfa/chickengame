@@ -25,7 +25,7 @@ t.afterWeaponMove = false
 t.wind = 0
 t.maxwind = 100
 
-t.movementSpeed = 1
+t.movementSpeed = 1.5
 
 function turn.setPlayerOrder(...)
   t.playerOrder = {...}

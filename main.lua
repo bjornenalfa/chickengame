@@ -35,12 +35,12 @@ function love.load()
 end
 
 function main.onClick(x, y, button)
-  Game.explode(x, y, 30, 300, 50)
+  --Game.explode(x, y, 30, 300, 50)
 end
 
 function love.keypressed(key)
   if key == "escape" then
-    love.event.quit()
+    --love.event.quit()
   end
 end
 

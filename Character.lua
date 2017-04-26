@@ -161,8 +161,8 @@ function Character.update(dt)
       char.y = char.y - 1
     end
     if char:solid("under") then
-      if char.vy > 400 then
-        char:damage((char.vy-400)*0.5)
+      if char.vy > 300 then
+        char:damage((char.vy-300)*0.5)
       end
       if char.vy > 0 then
         while char:solid("under") do
